@@ -4,4 +4,4 @@
   publish = "out"
 
 [dev]
-  command = "react-scripts start"
+  command = "yarn dev:app"

@@ -1,28 +1,32 @@
 import Head from 'next/head';
-import faunadb, { query } from 'faunadb';
 
-const {
-    Ref,
-    Paginate,
-    Get,
-    Match,
-    Select,
-    Index,
-    Create,
-    Collection,
-    Join,
-    Call,
-    Function: Fn
-} = query;
+// Function using fetch to POST to our API endpoint
+function createTrack(data: any) {
+    return fetch('/.netlify/functions/track-create', {
+        body: JSON.stringify(data),
+        method: 'POST'
+    }).then((response) => {
+        return response.json();
+    });
+}
+
+// Todo data
+const myTrack = {
+    title: 'My todo title',
+    completed: false
+};
+
+// create it!
+createTrack(myTrack)
+    .then((response) => {
+        console.log('API response', response);
+        // set app state
+    })
+    .catch((error) => {
+        console.log('API error', error);
+    });
 
 export default function Home(): JSX.Element {
-    const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET || '' });
-
-    const createTracker = async () => {
-        const res = await client.query(Create(Collection('track'), { data: { id: 2 } }));
-        await console.log(res);
-    };
-
     return (
         <div>
             <Head>
@@ -31,7 +35,6 @@ export default function Home(): JSX.Element {
             </Head>
 
             <main>tracker.oliverbucher.com</main>
-            <button onClick={createTracker}>Einen neuen Tracker erstellen</button>
         </div>
     );
 }
