@@ -8,6 +8,8 @@
         "dev": "next dev",
         "build": "next build && next export",
         "lint": "eslint --fix .",
+        "netlify:serve": "netlify-lambda serve functions",
+        "netlify:build": "netlify-lambda build functions",
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
     },
     "dependencies": {
@@ -28,6 +30,7 @@
         "eslint-plugin-react": "^7.23.1",
         "eslint-plugin-react-hooks": "^4.2.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
+        "netlify-lambda": "^2.0.3",
         "prettier": "^2.2.1",
         "typescript": "^4.2.3"
     }
