@@ -1,7 +1,4 @@
 {
-  "editor.tabSize": 2,
-  "eslint.packageManager": "yarn",
-  "eslint.options": {
-    "cwd": "./admin"
-  }
+    "editor.tabSize": 4,
+    "eslint.packageManager": "yarn"
 }
