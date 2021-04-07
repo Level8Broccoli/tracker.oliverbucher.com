@@ -1,7 +1,0 @@
-[build]
-  functions = "functions"
-  command = "yarn build"
-  publish = "out"
-
-[dev]
-  command = "yarn dev:app"
