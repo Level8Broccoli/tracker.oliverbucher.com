@@ -19,12 +19,19 @@ module.exports = {
         amd: true, // Enables require() and define() as global variables as per the amd spec.
         node: true // Enables Node.js global variables and Node.js scoping.
     },
+    overrides: [
+        {
+            files: ['*.ts', '*.tsx'],
+            extends: [
+                'plugin:@typescript-eslint/eslint-recommended',
+                'plugin:@typescript-eslint/recommended'
+            ]
+        }
+    ],
     extends: [
         'eslint:recommended',
         'plugin:react/recommended',
         'plugin:jsx-a11y/recommended',
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
         'plugin:prettier/recommended' // Make this the last element so prettier config overrides other formatting rules
     ],
     rules: {

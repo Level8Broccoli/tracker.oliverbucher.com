@@ -1,9 +1,6 @@
-exports.handler = async (event) => {
-    const subject = event.queryStringParameters.name || 'World';
-
+export async function handler() {
     return {
         statusCode: 200,
-
-        body: `Hello ${subject}!`
+        body: JSON.stringify({ message: 'Hello World' })
     };
-};
+}
