@@ -7,9 +7,10 @@ const client = new faunadb.Client({
     secret: process.env.FAUNADB_SECRET || FAUNADB_SECRET
 });
 
+console.log(process.env.FAUNADB_SECRET);
 export async function handler(event) {
-    const data = JSON.parse(event.body);
     try {
+        const data = JSON.parse(event.body);
         const res = await client.query(Create(Collection('tracks'), { data }));
 
         return {
