@@ -1,26 +1,18 @@
 import Head from 'next/head';
-import { FormEvent, useEffect, useState } from 'react';
-import { ENTRY_POINT, LOCAL_HOST_FOR_LAMBDA_FUNCTIONS } from '../config';
+import { FormEvent, useState } from 'react';
+import { createTrackerRequest } from '../api';
+import { NAME_RULE } from '../config';
 
 export default function Home(): JSX.Element {
-    const [host, setHost] = useState('');
-
-    useEffect(() => {
-        const isLocal = typeof window === 'undefined' || window.location.hostname === 'localhost';
-
-        setHost(isLocal ? LOCAL_HOST_FOR_LAMBDA_FUNCTIONS : window.location.href);
-    }, []);
+    const [name, setName] = useState('');
 
     const createTracker = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await fetch(`${host}${ENTRY_POINT.TRACKER_CREATE}`, {
-                method: 'POST',
-                body: JSON.stringify({ name: 'test' })
-            });
-            console.log({ res });
-        } catch (error) {
-            console.error({ error });
+            const secret = await createTrackerRequest(name);
+            console.table({ secret });
+        } catch (e) {
+            console.error({ msg: e.msg, code: e.internalCode });
         }
     };
 
@@ -35,8 +27,15 @@ export default function Home(): JSX.Element {
                 <h1>Erstelle deinen eigenen Tracker</h1>
                 <form onSubmit={createTracker}>
                     <label htmlFor="name">Gib deinem Tracker einen Namen:</label>
-                    {host}/
-                    <input id="name" type="text" placeholder="dein-name" />
+                    {window.location.host}/
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="dein-name"
+                        pattern={NAME_RULE.toString().slice(1, -1)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
                     <button type="submit">Erstellen</button>
                 </form>
             </main>
