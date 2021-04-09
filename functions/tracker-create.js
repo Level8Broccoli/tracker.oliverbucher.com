@@ -24,8 +24,7 @@ export async function handler({ body, httpMethod }) {
 
         const secret = getRandomSecret();
         await createTrackConfig(trackName, secret, timestamp);
-        const res = await createTrackCollection(trackName, timestamp);
-        console.log({ res });
+        await createTrackCollection(trackName, timestamp);
 
         return {
             statusCode: 201,

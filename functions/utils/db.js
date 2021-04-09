@@ -100,3 +100,10 @@ export const deleteTrack = async (name) => {
     await db.query(Delete(docRef.ref));
     await db.query(Delete(Collection(name)));
 };
+
+export const createEntry = async (name, ts) => {
+    const timestamp = Time(ts.toISOString());
+    return await db.query(
+        Create(Collection(name), { data: { timestamp, type: ENTRY_TYPE.ENTRY } })
+    );
+};

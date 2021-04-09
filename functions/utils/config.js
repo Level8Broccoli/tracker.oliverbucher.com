@@ -7,5 +7,6 @@ export const SECRET_RULE = /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/;
 export const SECRET_LENGTH = 2;
 
 export const ENTRY_TYPE = {
-    CREATED: 'created'
+    CREATED: 'created',
+    ENTRY: 'entry'
 };
