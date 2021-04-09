@@ -89,8 +89,20 @@ const createStartEntry = async (collectionRef, ts) => {
     return await db.query(Create(collectionRef, { data: { timestamp, type: ENTRY_TYPE.CREATED } }));
 };
 
+const createCollectionIndex = async (name, collectionRef) => {
+    return await db.query(
+        CreateIndex({
+            name: `${name}${INDEX_SUFFIX}`,
+            unique: false,
+            serialized: true,
+            source: collectionRef
+        })
+    );
+};
+
 export const createTrackCollection = async (name, ts) => {
     const { ref } = await createCollection(name);
+    await createCollectionIndex(name, ref);
     return await createStartEntry(ref, ts);
 };
 
