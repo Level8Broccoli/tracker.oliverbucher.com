@@ -1,19 +1,18 @@
 import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
 import { getAllEntries } from './utils/db';
-import { parseAndValidatetrackerName } from './utils/validation';
+import { validatetrackerName } from './utils/validation';
 
-export async function handler({ body, httpMethod }) {
+export async function handler({ path, httpMethod }) {
     if (httpMethod !== 'GET') {
         return returnMethodNotAllowed();
     }
 
     try {
-        const name = parseAndValidatetrackerName(JSON.parse(body));
-
+        const name = validatetrackerName(path.split('/').slice(-1).join());
         const data = await getAllEntries(name);
 
         return {
-            statusCode: 201,
+            statusCode: 200,
             body: JSON.stringify({ data }),
             headers: getHeaders()
         };

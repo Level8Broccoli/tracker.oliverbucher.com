@@ -26,6 +26,24 @@ export const parseAndValidatetrackerName = (body) => {
     return name;
 };
 
+export const validatetrackerName = (name) => {
+    if (typeof name !== 'string') {
+        throw {
+            msg: 'name needs to be a string.',
+            internalCode: ERROR_CODES.PROPERTY.NAME,
+            statusCode: 422
+        };
+    }
+    if (!NAME_RULE.test(name) || name === CONFIGS_COLLECTION) {
+        throw {
+            msg: `Invalid name '${name}'`,
+            internalCode: ERROR_CODES.PROPERTY.NAME,
+            statusCode: 422
+        };
+    }
+    return name;
+};
+
 export const parseAndValidateSecret = (body) => {
     if (!Object.prototype.hasOwnProperty.call(body, 'secret')) {
         throw {

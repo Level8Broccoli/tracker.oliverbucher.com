@@ -1,4 +1,6 @@
-export const ENTRY_TYPE = {
-    CREATED: 'created',
-    ENTRY: 'entry'
-};
+type entryType = 'created' | 'entry';
+
+export interface entry {
+    timestamp: Date;
+    type: entryType;
+}
