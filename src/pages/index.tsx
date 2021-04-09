@@ -1,27 +1,22 @@
 import Head from 'next/head';
 import { FormEvent, useEffect, useState } from 'react';
+import { ENTRY_POINT, LOCAL_HOST_FOR_LAMBDA_FUNCTIONS } from '../config';
 
 export default function Home(): JSX.Element {
-    const [url, setUrl] = useState('');
     const [host, setHost] = useState('');
 
     useEffect(() => {
-        const HOST =
-            typeof window === 'undefined' || window.location.hostname === 'localhost'
-                ? 'localhost'
-                : window.location.href;
-        const ENDPOINT = '.netlify/functions/tracker-create';
-        setUrl(HOST === 'localhost' ? `http://localhost:9000/${ENDPOINT}` : HOST + ENDPOINT);
-        setHost(HOST);
+        const isLocal = typeof window === 'undefined' || window.location.hostname === 'localhost';
+
+        setHost(isLocal ? LOCAL_HOST_FOR_LAMBDA_FUNCTIONS : window.location.href);
     }, []);
 
     const createTracker = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const res = await fetch(url, {
+        const res = await fetch(`${host}${ENTRY_POINT.TRACKER_CREATE}`, {
             method: 'POST',
             body: JSON.stringify({ name: 'test' })
         });
-        await console.log({ res, url, host });
     };
 
     return (

@@ -1,7 +1,7 @@
 import { authenticate } from './utils/auth';
 import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
-import { deleteTrack } from './utils/db';
-import { parseAndValidateTrackName, parseAndValidateSecret } from './utils/validation';
+import { deletetracker } from './utils/db';
+import { parseAndValidatetrackerName, parseAndValidateSecret } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
     if (httpMethod !== 'DELETE') {
@@ -9,11 +9,11 @@ export async function handler({ body, httpMethod }) {
     }
 
     try {
-        const trackName = parseAndValidateTrackName(JSON.parse(body));
+        const name = parseAndValidatetrackerName(JSON.parse(body));
         const secret = parseAndValidateSecret(JSON.parse(body));
-        await authenticate(trackName, secret);
+        await authenticate(name, secret);
 
-        await deleteTrack(trackName);
+        await deletetracker(name);
 
         return {
             statusCode: 200,

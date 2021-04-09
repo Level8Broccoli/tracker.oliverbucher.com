@@ -1,6 +1,6 @@
 import { authenticate } from './utils/auth';
 import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
-import { parseAndValidateSecret, parseAndValidateTrackName } from './utils/validation';
+import { parseAndValidateSecret, parseAndValidatetrackerName } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
     if (httpMethod !== 'GET') {
@@ -8,9 +8,9 @@ export async function handler({ body, httpMethod }) {
     }
 
     try {
-        const trackName = parseAndValidateTrackName(JSON.parse(body));
+        const trackerName = parseAndValidatetrackerName(JSON.parse(body));
         const secret = parseAndValidateSecret(JSON.parse(body));
-        await authenticate(trackName, secret);
+        await authenticate(trackerName, secret);
 
         return {
             statusCode: 200,

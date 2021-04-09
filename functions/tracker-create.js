@@ -1,12 +1,12 @@
 import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
 import {
-    checkIfTrackNameAlreadyExists,
+    checkIftrackerNameAlreadyExists,
     createConfigCollectionIfNotExists,
-    createTrackCollection,
-    createTrackConfig
+    createtrackerCollection,
+    createtrackerConfig
 } from './utils/db';
 import { getRandomSecret } from './utils/secret';
-import { parseAndValidateTimestamp, parseAndValidateTrackName } from './utils/validation';
+import { parseAndValidateTimestamp, parseAndValidatetrackerName } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
     if (httpMethod !== 'POST') {
@@ -14,17 +14,17 @@ export async function handler({ body, httpMethod }) {
     }
 
     try {
-        const trackName = parseAndValidateTrackName(JSON.parse(body));
+        const name = parseAndValidatetrackerName(JSON.parse(body));
         const timestamp = parseAndValidateTimestamp(JSON.parse(body));
 
         await createConfigCollectionIfNotExists();
-        if (await checkIfTrackNameAlreadyExists(trackName)) {
-            throw `trackName '${trackName}' is already in use.`;
+        if (await checkIftrackerNameAlreadyExists(name)) {
+            throw `name '${name}' is already in use.`;
         }
 
         const secret = getRandomSecret();
-        await createTrackConfig(trackName, secret, timestamp);
-        await createTrackCollection(trackName, timestamp);
+        await createtrackerConfig(name, secret, timestamp);
+        await createtrackerCollection(name, timestamp);
 
         return {
             statusCode: 201,

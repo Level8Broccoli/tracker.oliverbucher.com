@@ -1,17 +1,17 @@
 import { CONFIGS_COLLECTION, NAME_RULE, SECRET_RULE } from './config';
 
-export const parseAndValidateTrackName = (body) => {
-    if (!Object.prototype.hasOwnProperty.call(body, 'trackName')) {
-        throw "Missing 'trackName' property on the body.";
+export const parseAndValidatetrackerName = (body) => {
+    if (!Object.prototype.hasOwnProperty.call(body, 'name')) {
+        throw "Missing 'name' property on the body.";
     }
-    if (typeof body.trackName !== 'string') {
-        throw 'trackName needs to be a string.';
+    if (typeof body.name !== 'string') {
+        throw 'name needs to be a string.';
     }
-    const trackName = body.trackName.trim();
-    if (!NAME_RULE.test(trackName) || trackName === CONFIGS_COLLECTION) {
-        throw `Invalid trackName '${trackName}'`;
+    const name = body.name.trim();
+    if (!NAME_RULE.test(name) || name === CONFIGS_COLLECTION) {
+        throw `Invalid name '${name}'`;
     }
-    return trackName;
+    return name;
 };
 
 export const parseAndValidateSecret = (body) => {

@@ -4,7 +4,7 @@ import { createEntry } from './utils/db';
 import {
     parseAndValidateSecret,
     parseAndValidateTimestamp,
-    parseAndValidateTrackName
+    parseAndValidatetrackerName
 } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
@@ -13,13 +13,13 @@ export async function handler({ body, httpMethod }) {
     }
 
     try {
-        const trackName = parseAndValidateTrackName(JSON.parse(body));
+        const name = parseAndValidatetrackerName(JSON.parse(body));
         const timestamp = parseAndValidateTimestamp(JSON.parse(body));
         const secret = parseAndValidateSecret(JSON.parse(body));
 
-        await authenticate(trackName, secret);
+        await authenticate(name, secret);
 
-        const entry = await createEntry(trackName, timestamp);
+        const entry = await createEntry(name, timestamp);
 
         return {
             statusCode: 201,

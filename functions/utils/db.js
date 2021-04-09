@@ -70,12 +70,12 @@ export const createConfigCollectionIfNotExists = async () => {
     }
 };
 
-export const checkIfTrackNameAlreadyExists = async (name) => {
+export const checkIftrackerNameAlreadyExists = async (name) => {
     const { data } = await db.query(Paginate(Match(Index(ALL_TRACKER_NAMES_INDEX), name)));
     return data.length > 0;
 };
 
-export const createTrackConfig = async (name, secret, ts) => {
+export const createtrackerConfig = async (name, secret, ts) => {
     const timestamp = Time(ts.toISOString());
     return await db.query(
         Create(Collection(CONFIGS_COLLECTION), {
@@ -100,7 +100,7 @@ const createCollectionIndex = async (name, collectionRef) => {
     );
 };
 
-export const createTrackCollection = async (name, ts) => {
+export const createtrackerCollection = async (name, ts) => {
     const { ref } = await createCollection(name);
     await createCollectionIndex(name, ref);
     return await createStartEntry(ref, ts);
@@ -110,7 +110,7 @@ export const getConfigEntry = async (name) => {
     return await db.query(Get(Match(Index(ALL_TRACKERS_INDEX), name)));
 };
 
-export const deleteTrack = async (name) => {
+export const deletetracker = async (name) => {
     const docRef = await getConfigEntry(name);
     await db.query(Delete(docRef.ref));
     return await db.query(Delete(Collection(name)));
