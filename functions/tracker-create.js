@@ -1,18 +1,27 @@
-import { createConfigCollectionIfNotExists, checkIfTrackNameAlreadyExists } from './utils/db';
-
-import { validateTrackName } from './utils/validation';
-
+import {
+    createConfigCollectionIfNotExists,
+    checkIfTrackNameAlreadyExists,
+    createTrackConfig
+} from './utils/db';
+import { parseAndValidateTrackName } from './utils/validation';
 import { getHeaders, returnError } from './utils/common';
+import { getRandomSecret } from './utils/wordList';
 
 export async function handler({ body }) {
     try {
-        validateTrackName(JSON.parse(body));
+        const trackName = parseAndValidateTrackName(JSON.parse(body));
         await createConfigCollectionIfNotExists();
-        const isUnique = await checkIfTrackNameAlreadyExists();
-        console.log({ isUnique });
+        if (await checkIfTrackNameAlreadyExists(trackName)) {
+            throw `trackName '${trackName}' is already in use.`;
+        }
+
+        const secret = getRandomSecret();
+        await createTrackConfig(trackName, secret);
+        // await createTrackCollection(trackName);
+
         return {
             statusCode: 200,
-            body: JSON.stringify({}),
+            body: JSON.stringify({ secret }),
             headers: getHeaders()
         };
     } catch (e) {

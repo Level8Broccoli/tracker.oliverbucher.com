@@ -1,6 +1,6 @@
-import { COLLECTION_NAME_CONFIG } from './config';
+import { CONFIGS_COLLECTION } from './config';
 
-export const validateTrackName = (body) => {
+export const parseAndValidateTrackName = (body) => {
     if (!Object.prototype.hasOwnProperty.call(body, 'trackName')) {
         throw "Missing 'trackName' property on the body.";
     }
@@ -9,7 +9,8 @@ export const validateTrackName = (body) => {
     }
     const trackName = body.trackName.trim();
     const regexRule = /^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/;
-    if (!regexRule.test(trackName) || trackName === COLLECTION_NAME_CONFIG) {
+    if (!regexRule.test(trackName) || trackName === CONFIGS_COLLECTION) {
         throw `Invalid trackName '${trackName}'`;
     }
+    return trackName;
 };
