@@ -27,3 +27,14 @@ export const parseAndValidateSecret = (body) => {
     }
     return secret;
 };
+
+export const parseAndValidateTimestamp = (body) => {
+    if (!Object.prototype.hasOwnProperty.call(body, 'timestamp')) {
+        throw "Missing 'timestamp' property on the body.";
+    }
+    if (typeof body.timestamp !== 'string') {
+        throw 'timestamp needs to be a string.';
+    }
+
+    return new Date(body.timestamp);
+};

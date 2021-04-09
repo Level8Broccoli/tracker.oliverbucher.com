@@ -4,6 +4,7 @@ import {
     Create,
     CreateCollection,
     CreateIndex,
+    Time,
     Delete,
     Exists,
     Get,
@@ -11,14 +12,19 @@ import {
     Match,
     Paginate
 } from 'faunadb';
-import { ALL_TRACKERS_INDEX, ALL_TRACKER_NAMES_INDEX, CONFIGS_COLLECTION } from './config';
+import {
+    ALL_TRACKERS_INDEX,
+    ALL_TRACKER_NAMES_INDEX,
+    CONFIGS_COLLECTION,
+    ENTRY_TYPE
+} from './config';
 
 const db = new Client({
     secret: process.env.FAUNADB_SECRET
 });
 
 const createCollection = async (name) => {
-    await db.query(CreateCollection({ name }));
+    return await db.query(CreateCollection({ name }));
 };
 
 export const createConfigCollectionIfNotExists = async () => {
@@ -66,16 +72,23 @@ export const checkIfTrackNameAlreadyExists = async (name) => {
     return data.length > 0;
 };
 
-export const createTrackConfig = async (name, secret) => {
-    db.query(
+export const createTrackConfig = async (name, secret, ts) => {
+    const timestamp = Time(ts.toISOString());
+    return await db.query(
         Create(Collection(CONFIGS_COLLECTION), {
-            data: { name, secret }
+            data: { name, secret, timestamp }
         })
     );
 };
 
-export const createTrackCollection = async (name) => {
-    await createCollection(name);
+const createStartEntry = async (collectionRef, ts) => {
+    const timestamp = Time(ts.toISOString());
+    return await db.query(Create(collectionRef, { data: { timestamp, type: ENTRY_TYPE.CREATED } }));
+};
+
+export const createTrackCollection = async (name, ts) => {
+    const { ref } = await createCollection(name);
+    return await createStartEntry(ref, ts);
 };
 
 export const getConfigEntry = async (name) => {
@@ -84,6 +97,6 @@ export const getConfigEntry = async (name) => {
 
 export const deleteTrack = async (name) => {
     const docRef = await getConfigEntry(name);
-    db.query(Delete(docRef.ref));
-    db.query(Delete(Collection(name)));
+    await db.query(Delete(docRef.ref));
+    await db.query(Delete(Collection(name)));
 };
