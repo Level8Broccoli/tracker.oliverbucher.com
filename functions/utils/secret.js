@@ -1,4 +1,4 @@
-import { SECRET_LENGTH } from './config';
+import { SECRET_LENGTH, SECRET_RULE } from './config';
 
 const wordList = [
     'Okay',
@@ -38,7 +38,13 @@ export const getRandomSecret = () => {
         randomNumbers.add(randomIndex);
     }
 
-    return Array.from(randomNumbers)
+    const secret = Array.from(randomNumbers)
         .map((num) => wordList[num])
-        .join('-');
+        .join(' ');
+
+    if (!SECRET_RULE.test(secret)) {
+        throw 'Error happend while generating the secret.';
+    }
+
+    return secret;
 };

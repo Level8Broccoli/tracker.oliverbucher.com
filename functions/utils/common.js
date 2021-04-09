@@ -13,3 +13,10 @@ export const returnError = (e) => {
         body: JSON.stringify(e)
     };
 };
+
+export const returnMethodNotAllowed = () => {
+    return {
+        statusCode: 405,
+        body: JSON.stringify('Method Not Allowed')
+    };
+};

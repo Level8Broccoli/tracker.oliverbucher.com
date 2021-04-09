@@ -5,11 +5,12 @@ import {
     CreateCollection,
     CreateIndex,
     Exists,
+    Get,
     Index,
     Match,
     Paginate
 } from 'faunadb';
-import { ALL_TRACKER_NAMES_INDEX, CONFIGS_COLLECTION } from './config';
+import { ALL_TRACKERS_INDEX, ALL_TRACKER_NAMES_INDEX, CONFIGS_COLLECTION } from './config';
 
 const db = new Client({
     secret: process.env.FAUNADB_SECRET
@@ -18,21 +19,6 @@ const db = new Client({
 const createCollection = async (name) => {
     await db.query(CreateCollection({ name }));
 };
-const createIndex = async (name) => {
-    await db.query(
-        CreateIndex({
-            name: ALL_TRACKER_NAMES_INDEX,
-            unique: true,
-            serialized: true,
-            source: Collection(name),
-            terms: [
-                {
-                    field: ['data', 'name']
-                }
-            ]
-        })
-    );
-};
 
 export const createConfigCollectionIfNotExists = async () => {
     const collectionExists = await db.query(Exists(Collection(CONFIGS_COLLECTION)));
@@ -40,7 +26,32 @@ export const createConfigCollectionIfNotExists = async () => {
         console.log(`Collection "${CONFIGS_COLLECTION}" does not yet exists. Creating...`);
         try {
             await createCollection(CONFIGS_COLLECTION);
-            await createIndex(CONFIGS_COLLECTION);
+            await db.query(
+                CreateIndex({
+                    name: ALL_TRACKER_NAMES_INDEX,
+                    unique: true,
+                    serialized: true,
+                    source: Collection(CONFIGS_COLLECTION),
+                    terms: [
+                        {
+                            field: ['data', 'name']
+                        }
+                    ]
+                })
+            );
+            await db.query(
+                CreateIndex({
+                    name: ALL_TRACKERS_INDEX,
+                    unique: false,
+                    serialized: true,
+                    source: Collection(CONFIGS_COLLECTION),
+                    terms: [
+                        {
+                            field: ['data', 'name']
+                        }
+                    ]
+                })
+            );
             console.log(`Collection "${CONFIGS_COLLECTION}" created.`);
         } catch (e) {
             console.log(`Error while creating collection "${CONFIGS_COLLECTION}"!`, e);
@@ -64,4 +75,13 @@ export const createTrackConfig = async (name, secret) => {
 
 export const createTrackCollection = async (name) => {
     await createCollection(name);
+};
+
+export const getConfigEntry = async (name) => {
+    const { data } = await db.query(Get(Match(Index(ALL_TRACKERS_INDEX), name)));
+    return data;
+};
+
+export const deleteTrack = async (name) => {
+    // todo
 };
