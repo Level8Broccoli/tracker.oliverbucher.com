@@ -4,6 +4,7 @@ import {
     Create,
     CreateCollection,
     CreateIndex,
+    Delete,
     Exists,
     Get,
     Index,
@@ -60,8 +61,8 @@ export const createConfigCollectionIfNotExists = async () => {
     }
 };
 
-export const checkIfTrackNameAlreadyExists = async (trackName) => {
-    const { data } = await db.query(Paginate(Match(Index(ALL_TRACKER_NAMES_INDEX), trackName)));
+export const checkIfTrackNameAlreadyExists = async (name) => {
+    const { data } = await db.query(Paginate(Match(Index(ALL_TRACKER_NAMES_INDEX), name)));
     return data.length > 0;
 };
 
@@ -78,10 +79,11 @@ export const createTrackCollection = async (name) => {
 };
 
 export const getConfigEntry = async (name) => {
-    const { data } = await db.query(Get(Match(Index(ALL_TRACKERS_INDEX), name)));
-    return data;
+    return await db.query(Get(Match(Index(ALL_TRACKERS_INDEX), name)));
 };
 
 export const deleteTrack = async (name) => {
-    // todo
+    const docRef = await getConfigEntry(name);
+    db.query(Delete(docRef.ref));
+    db.query(Delete(Collection(name)));
 };
