@@ -10,13 +10,16 @@ import {
     Get,
     Index,
     Match,
-    Paginate
+    Paginate,
+    Map as FMap,
+    Lambda
 } from 'faunadb';
 import {
     ALL_TRACKERS_INDEX,
     ALL_TRACKER_NAMES_INDEX,
     CONFIGS_COLLECTION,
-    ENTRY_TYPE
+    ENTRY_TYPE,
+    INDEX_SUFFIX
 } from './config';
 
 const db = new Client({
@@ -98,7 +101,7 @@ export const getConfigEntry = async (name) => {
 export const deleteTrack = async (name) => {
     const docRef = await getConfigEntry(name);
     await db.query(Delete(docRef.ref));
-    await db.query(Delete(Collection(name)));
+    return await db.query(Delete(Collection(name)));
 };
 
 export const createEntry = async (name, ts) => {
@@ -106,4 +109,14 @@ export const createEntry = async (name, ts) => {
     return await db.query(
         Create(Collection(name), { data: { timestamp, type: ENTRY_TYPE.ENTRY } })
     );
+};
+
+export const getAllEntries = async (name) => {
+    const { data } = await db.query(
+        FMap(
+            Paginate(Match(Index(`${name}${INDEX_SUFFIX}`))),
+            Lambda((entry) => Get(entry))
+        )
+    );
+    return data.map((entry) => entry.data);
 };

@@ -19,11 +19,11 @@ export async function handler({ body, httpMethod }) {
 
         await authenticate(trackName, secret);
 
-        await createEntry(trackName, timestamp);
+        const entry = await createEntry(trackName, timestamp);
 
         return {
             statusCode: 201,
-            body: JSON.stringify({ secret }),
+            body: JSON.stringify({ entry }),
             headers: getHeaders()
         };
     } catch (e) {
