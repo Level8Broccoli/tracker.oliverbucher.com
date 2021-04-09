@@ -19,6 +19,7 @@ import {
     ALL_TRACKER_NAMES_INDEX,
     CONFIGS_COLLECTION,
     ENTRY_TYPE,
+    ERROR_CODES,
     INDEX_SUFFIX
 } from './config';
 
@@ -67,7 +68,7 @@ export const createConfigCollectionIfNotExists = async () => {
             console.log(`Error while creating collection "${CONFIGS_COLLECTION}"!`, e);
             throw {
                 msg: e,
-                internalCode: 99,
+                internalCode: ERROR_CODES.DB_ERROR,
                 statusCode: 500
             };
         }

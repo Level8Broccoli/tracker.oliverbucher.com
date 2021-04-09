@@ -1,4 +1,5 @@
 import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
+import { ERROR_CODES } from './utils/config';
 import {
     checkIftrackerNameAlreadyExists,
     createConfigCollectionIfNotExists,
@@ -21,7 +22,7 @@ export async function handler({ body, httpMethod }) {
         if (await checkIftrackerNameAlreadyExists(name)) {
             throw {
                 msg: `Name '${name}' is already in use.`,
-                internalCode: 4,
+                internalCode: ERROR_CODES.NAME_DUPLICATE,
                 statusCode: 422
             };
         }

@@ -13,11 +13,11 @@ export async function handler({ body, httpMethod }) {
         const secret = parseAndValidateSecret(JSON.parse(body));
         await authenticate(name, secret);
 
-        await deletetracker(name);
+        const data = await deletetracker(name);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({}),
+            body: JSON.stringify({ data }),
             headers: getHeaders()
         };
     } catch (e) {

@@ -11,3 +11,15 @@ export const ENTRY_TYPE = {
     CREATED: 'created',
     ENTRY: 'entry'
 };
+
+export const ERROR_CODES = {
+    PROPERTY: {
+        NAME: 1,
+        SECRET: 2,
+        TIMESTAMP: 3
+    },
+    NAME_DUPLICATE: 10,
+    AUTHENTIFICATION_FAILED: 20,
+    ERROR_WHILE_CREATING_SECRET: 30,
+    DB_ERROR: 90
+};

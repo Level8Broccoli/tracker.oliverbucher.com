@@ -1,17 +1,17 @@
-import { CONFIGS_COLLECTION, NAME_RULE, SECRET_RULE } from './config';
+import { CONFIGS_COLLECTION, NAME_RULE, SECRET_RULE, ERROR_CODES } from './config';
 
 export const parseAndValidatetrackerName = (body) => {
     if (!Object.prototype.hasOwnProperty.call(body, 'name')) {
         throw {
             msg: "Missing 'name' property on the body.",
-            internalCode: 1,
+            internalCode: ERROR_CODES.PROPERTY.NAME,
             statusCode: 422
         };
     }
     if (typeof body.name !== 'string') {
         throw {
             msg: 'name needs to be a string.',
-            internalCode: 1,
+            internalCode: ERROR_CODES.PROPERTY.NAME,
             statusCode: 422
         };
     }
@@ -19,7 +19,7 @@ export const parseAndValidatetrackerName = (body) => {
     if (!NAME_RULE.test(name) || name === CONFIGS_COLLECTION) {
         throw {
             msg: `Invalid name '${name}'`,
-            internalCode: 1,
+            internalCode: ERROR_CODES.PROPERTY.NAME,
             statusCode: 422
         };
     }
@@ -30,14 +30,14 @@ export const parseAndValidateSecret = (body) => {
     if (!Object.prototype.hasOwnProperty.call(body, 'secret')) {
         throw {
             msg: "Missing 'secret' property on the body.",
-            internalCode: 2,
+            internalCode: ERROR_CODES.PROPERTY.SECRET,
             statusCode: 422
         };
     }
     if (typeof body.secret !== 'string') {
         throw {
             msg: 'secret needs to be a string.',
-            internalCode: 2,
+            internalCode: ERROR_CODES.PROPERTY.SECRET,
             statusCode: 422
         };
     }
@@ -45,7 +45,7 @@ export const parseAndValidateSecret = (body) => {
     if (!SECRET_RULE.test(secret)) {
         throw {
             msg: `Invalid secret '${secret}'`,
-            internalCode: 2,
+            internalCode: ERROR_CODES.PROPERTY.SECRET,
             statusCode: 422
         };
     }
@@ -56,14 +56,14 @@ export const parseAndValidateTimestamp = (body) => {
     if (!Object.prototype.hasOwnProperty.call(body, 'timestamp')) {
         throw {
             msg: "Missing 'timestamp' property on the body.",
-            internalCode: 3,
+            internalCode: ERROR_CODES.PROPERTY.TIMESTAMP,
             statusCode: 422
         };
     }
     if (typeof body.timestamp !== 'string') {
         throw {
             msg: 'timestamp needs to be a string.',
-            internalCode: 3,
+            internalCode: ERROR_CODES.PROPERTY.TIMESTAMP,
             statusCode: 422
         };
     }
