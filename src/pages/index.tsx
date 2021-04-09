@@ -9,7 +9,7 @@ export default function Home(): JSX.Element {
     const [host, setHost] = useState('');
     const router = useRouter();
     useEffect(() => {
-        setHost(window.location.host);
+        setHost(window.location.href);
     }, []);
 
     const createTracker = async (e: FormEvent<HTMLFormElement>) => {
@@ -30,7 +30,7 @@ export default function Home(): JSX.Element {
             <h1>Erstelle deinen eigenen Tracker</h1>
             <form onSubmit={createTracker}>
                 <label htmlFor="name">Gib deinem Tracker einen Namen:</label>
-                {host}/
+                {host}
                 <input
                     id="name"
                     type="text"

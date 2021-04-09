@@ -42,11 +42,10 @@ export const readAllEntryRequest = async (name: string): Promise<entry[]> => {
 
     if (res.status === 200 && data.data) {
         return data.data.map((entry: any) => {
-            const e = {
+            return {
                 type: entry.type,
                 timestamp: new Date(entry.timestamp['@ts'])
             };
-            return e;
         });
     } else {
         throw data;
