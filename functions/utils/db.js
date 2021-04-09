@@ -61,3 +61,7 @@ export const createTrackConfig = async (name, secret) => {
         })
     );
 };
+
+export const createTrackCollection = async (name) => {
+    await createCollection(name);
+};

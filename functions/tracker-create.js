@@ -1,7 +1,8 @@
 import {
     createConfigCollectionIfNotExists,
     checkIfTrackNameAlreadyExists,
-    createTrackConfig
+    createTrackConfig,
+    createTrackCollection
 } from './utils/db';
 import { parseAndValidateTrackName } from './utils/validation';
 import { getHeaders, returnError } from './utils/common';
@@ -17,7 +18,7 @@ export async function handler({ body }) {
 
         const secret = getRandomSecret();
         await createTrackConfig(trackName, secret);
-        // await createTrackCollection(trackName);
+        await createTrackCollection(trackName);
 
         return {
             statusCode: 200,
