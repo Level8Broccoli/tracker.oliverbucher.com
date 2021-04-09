@@ -7,16 +7,18 @@ export const getHeaders = () => {
     return undefined;
 };
 
-export const returnError = (e) => {
+export const returnError = ({ msg, internalCode, statusCode = 400 }) => {
     return {
-        statusCode: 400,
-        body: JSON.stringify(e)
+        statusCode: statusCode,
+        body: JSON.stringify({ msg, internalCode }),
+        headers: getHeaders()
     };
 };
 
 export const returnMethodNotAllowed = () => {
     return {
         statusCode: 405,
-        body: JSON.stringify('Method Not Allowed')
+        body: JSON.stringify('Method Not Allowed'),
+        headers: getHeaders()
     };
 };

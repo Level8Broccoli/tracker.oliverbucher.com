@@ -31,7 +31,11 @@ const wordList = [
 export const getRandomSecret = () => {
     const randomNumbers = new Set();
     if (wordList.length < SECRET_LENGTH) {
-        throw 'Wordlist is too small to generate a secret!';
+        throw {
+            msg: 'Wordlist is too small to generate a secret!',
+            internalCode: 15,
+            statusCode: 500
+        };
     }
     while (randomNumbers.size < SECRET_LENGTH) {
         const randomIndex = Math.floor(Math.random() * wordList.length);
@@ -43,7 +47,11 @@ export const getRandomSecret = () => {
         .join(' ');
 
     if (!SECRET_RULE.test(secret)) {
-        throw 'Error happend while generating the secret.';
+        throw {
+            msg: 'Error happend while generating the secret.',
+            internalCode: 17,
+            statusCode: 500
+        };
     }
 
     return secret;

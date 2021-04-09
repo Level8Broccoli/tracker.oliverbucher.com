@@ -19,7 +19,11 @@ export async function handler({ body, httpMethod }) {
 
         await createConfigCollectionIfNotExists();
         if (await checkIftrackerNameAlreadyExists(name)) {
-            throw `name '${name}' is already in use.`;
+            throw {
+                msg: `Name '${name}' is already in use.`,
+                internalCode: 4,
+                statusCode: 422
+            };
         }
 
         const secret = getRandomSecret();

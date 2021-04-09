@@ -13,10 +13,15 @@ export default function Home(): JSX.Element {
 
     const createTracker = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const res = await fetch(`${host}${ENTRY_POINT.TRACKER_CREATE}`, {
-            method: 'POST',
-            body: JSON.stringify({ name: 'test' })
-        });
+        try {
+            const res = await fetch(`${host}${ENTRY_POINT.TRACKER_CREATE}`, {
+                method: 'POST',
+                body: JSON.stringify({ name: 'test' })
+            });
+            console.log({ res });
+        } catch (error) {
+            console.error({ error });
+        }
     };
 
     return (
@@ -29,9 +34,9 @@ export default function Home(): JSX.Element {
             <main>
                 <h1>Erstelle deinen eigenen Tracker</h1>
                 <form onSubmit={createTracker}>
-                    <label htmlFor="slug">Gib deinem Tracker einen Namen:</label>
+                    <label htmlFor="name">Gib deinem Tracker einen Namen:</label>
                     {host}/
-                    <input id="slug" type="text" placeholder="dein-name" />
+                    <input id="name" type="text" placeholder="dein-name" />
                     <button type="submit">Erstellen</button>
                 </form>
             </main>

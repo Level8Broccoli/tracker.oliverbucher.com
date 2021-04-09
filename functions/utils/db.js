@@ -65,7 +65,11 @@ export const createConfigCollectionIfNotExists = async () => {
             console.log(`Collection "${CONFIGS_COLLECTION}" created.`);
         } catch (e) {
             console.log(`Error while creating collection "${CONFIGS_COLLECTION}"!`, e);
-            throw e;
+            throw {
+                msg: e,
+                internalCode: 99,
+                statusCode: 500
+            };
         }
     }
 };
