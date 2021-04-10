@@ -1,38 +1,45 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { createTrackerRequest } from '../api/api';
+import { NAME_RULE } from '../config';
+import { saveSecret } from '../utils/storage';
 
 export default function Home(): JSX.Element {
-    const [count, setCount] = useState(0);
+    const [name, setName] = useState('');
+    const [host, setHost] = useState('');
+
+    useEffect(() => {
+        setHost(window.location.href);
+    }, []);
+
+    const createTracker = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const secret = await createTrackerRequest(name);
+
+            console.table({ secret });
+            saveSecret(secret);
+            // router.push(`/${name}`);
+        } catch (e) {
+            console.error({ msg: e.msg, code: e.internalCode });
+        }
+    };
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <p>Hello Vite + React!</p>
-                <p>
-                    <button onClick={() => setCount((count) => count + 1)}>
-                        count isnt: {count}
-                    </button>
-                </p>
-                <p>
-                    Edit <code>App.tsx</code> and save to test HMR updates.
-                </p>
-                <p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        Learn React
-                    </a>
-                    {' | '}
-                    <a
-                        className="App-link"
-                        href="https://vitejs.dev/guide/features.html"
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        Vite Docs
-                    </a>
-                </p>
-            </header>
-        </div>
+        <main>
+            <h1>Erstelle deinen eigenen Tracker</h1>
+            <form onSubmit={createTracker}>
+                <label htmlFor="name">Gib deinem Tracker einen Namen:</label>
+                {host}
+                <input
+                    id="name"
+                    type="text"
+                    placeholder="dein-name"
+                    pattern={NAME_RULE.toString().slice(1, -1)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <button type="submit">Erstellen</button>
+            </form>
+        </main>
     );
 }
