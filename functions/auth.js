@@ -7,6 +7,7 @@ export async function handler({ body, httpMethod }) {
     if (httpMethod !== 'POST') {
         return methodNotAllowed();
     }
+
     const { name, secret } = JSON.parse(body);
     if (typeof name !== 'string' || typeof secret !== 'string') {
         return badRequest();

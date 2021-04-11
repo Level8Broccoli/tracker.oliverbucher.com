@@ -96,3 +96,7 @@ export const nameIsValid = (name) => {
 export const secretIsValid = (secret) => {
     return SECRET_RULE.test(secret);
 };
+
+export const timestampIsValid = (timestamp) => {
+    return !isNaN(Date.parse(timestamp));
+};
