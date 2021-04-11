@@ -5,6 +5,11 @@ export interface entry {
     type: entryType;
 }
 
+export interface entryResponse {
+    timestamp: string;
+    type: entryType;
+}
+
 export interface errorResponse {
     data: { msg: string };
     code: number;
@@ -28,5 +33,10 @@ interface configEntry {
 
 export interface trackerDeleteResponse {
     data: { data: configEntry };
+    code: number;
+}
+
+export interface entryCreateResponse {
+    data: { entry: entryResponse };
     code: number;
 }

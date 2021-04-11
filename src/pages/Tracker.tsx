@@ -22,10 +22,16 @@ export default function Tracker(): JSX.Element {
         })();
     }, [name]);
 
-    const createEntry = () => {
+    const createEntry = async () => {
         const secret = getSecret();
         if (typeof secret === 'string' && typeof name === 'string') {
-            entryCreate(name, secret);
+            const data = await entryCreate(name, secret);
+
+            if (typeof data !== 'string') {
+                setEntries((prev) => {
+                    return [...prev, data];
+                });
+            }
         }
     };
 
@@ -64,7 +70,7 @@ export default function Tracker(): JSX.Element {
             <ul>
                 {entries.map((entry, i) => (
                     <li key={i}>
-                        {entry.type} | {entry.timestamp.toISOString()}
+                        x{entry.type} | {entry.timestamp.toISOString()}
                     </li>
                 ))}
             </ul>

@@ -1,6 +1,7 @@
 import { ENTRY_POINT, HOST } from '../urls';
+import { entry, entryCreateResponse, errorResponse } from './schemas';
 
-export const entryCreate = async (name: string, secret: string): Promise<string> => {
+export const entryCreate = async (name: string, secret: string): Promise<string | entry> => {
     const timestamp = new Date().toISOString();
     const res = await fetch(HOST + ENTRY_POINT.ENTRY_CREATE, {
         method: 'POST',
@@ -10,10 +11,14 @@ export const entryCreate = async (name: string, secret: string): Promise<string>
             timestamp
         })
     });
-    const data = await res.json();
-    if (res.status === 201) {
-        return data;
+    const { data }: errorResponse | entryCreateResponse = await res.json();
+
+    if ('entry' in data) {
+        return {
+            ...data.entry,
+            timestamp: new Date(data.entry.timestamp)
+        };
     } else {
-        throw data;
+        return data.msg;
     }
 };
