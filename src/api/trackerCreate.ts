@@ -1,6 +1,7 @@
 import { ENTRY_POINT, HOST } from '../urls';
+import { errorResponse, trackerCreateResponse } from './schemas';
 
-export const trackerCreate = async (name: string): Promise<string> => {
+export const trackerCreate = async (name: string): Promise<{ data: string; error: boolean }> => {
     const timestamp = new Date().toISOString();
     const res = await fetch(HOST + ENTRY_POINT.TRACKER_CREATE, {
         method: 'POST',
@@ -9,10 +10,16 @@ export const trackerCreate = async (name: string): Promise<string> => {
             timestamp
         })
     });
-    const data = await res.json();
-    if (res.status === 201) {
-        return data.secret;
+    const { data }: errorResponse | trackerCreateResponse = await res.json();
+    if ('secret' in data) {
+        return {
+            data: data.secret,
+            error: false
+        };
     } else {
-        throw data;
+        return {
+            data: data.msg,
+            error: true
+        };
     }
 };

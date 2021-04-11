@@ -15,14 +15,14 @@ export default function Home(): JSX.Element {
 
     const submitNewTracker = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const secret = await trackerCreate(name);
 
-            console.table({ secret });
-            saveSecret(secret);
+        const { data, error } = await trackerCreate(name);
+
+        if (error) {
+            console.error(data);
+        } else {
+            saveSecret(data);
             history.push(`/t/${name}`);
-        } catch (e) {
-            console.error({ msg: e.msg, code: e.internalCode });
         }
     };
 

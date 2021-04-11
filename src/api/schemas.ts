@@ -14,3 +14,8 @@ export interface authResponse {
     data: { secretVerified: boolean };
     code: number;
 }
+
+export interface trackerCreateResponse {
+    data: { secret: string };
+    code: number;
+}
