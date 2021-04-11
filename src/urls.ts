@@ -2,7 +2,7 @@ const LOCAL_HOST_FOR_LAMBDA_FUNCTIONS = 'http://localhost:9000/';
 
 const isLocal = typeof window === 'undefined' || window.location.hostname === 'localhost';
 
-export const HOST = isLocal ? LOCAL_HOST_FOR_LAMBDA_FUNCTIONS : window.location.href;
+export const HOST = isLocal ? LOCAL_HOST_FOR_LAMBDA_FUNCTIONS : `https://${window.location.host}`;
 
 const PATH_TO_LAMBDA_FUNCTIONS = '.netlify/functions/';
 export const ENTRY_POINT = {

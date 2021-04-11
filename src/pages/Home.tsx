@@ -1,4 +1,5 @@
 import React, { FormEvent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import { createTrackerRequest } from '../api/api';
 import { NAME_RULE } from '../config';
 import { saveSecret } from '../utils/storage';
@@ -6,9 +7,10 @@ import { saveSecret } from '../utils/storage';
 export default function Home(): JSX.Element {
     const [name, setName] = useState('');
     const [host, setHost] = useState('');
+    const history = useHistory();
 
     useEffect(() => {
-        setHost(window.location.href);
+        setHost(`https://${window.location.host}`);
     }, []);
 
     const createTracker = async (e: FormEvent<HTMLFormElement>) => {
@@ -18,7 +20,7 @@ export default function Home(): JSX.Element {
 
             console.table({ secret });
             saveSecret(secret);
-            // router.push(`/${name}`);
+            history.push(`/${name}`);
         } catch (e) {
             console.error({ msg: e.msg, code: e.internalCode });
         }
