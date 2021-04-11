@@ -1,33 +1,56 @@
+import { verifySecret } from './db/auth';
+import { addEntry } from './db/entries';
 import { methods } from './http/utils';
-import { authenticate } from './utils/auth';
-import { getHeaders, returnError, methodNotAllowed } from './utils/common';
-import { createEntry } from './utils/db';
-import {
-    parseAndValidateSecret,
-    parseAndValidateTimestamp,
-    parseAndValidatetrackerName
-} from './utils/validation';
+import { ENTRY_TYPE, INTERNAL_CODES } from './utils/config';
+import { badRequest, created, methodNotAllowed, ok, serverError } from './utils/responses';
+import { nameIsValid, secretIsValid, timestampIsValid } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
     if (httpMethod !== methods.POST) {
         return methodNotAllowed();
     }
 
+    const { name, secret, timestamp } = JSON.parse(body);
+    if (typeof name !== 'string' || typeof secret !== 'string' || typeof timestamp !== 'string') {
+        return badRequest();
+    }
+
+    if (!nameIsValid(name)) {
+        return ok({
+            data: { msg: `Gewählter Name '${name}' ist nicht valide.` },
+            code: INTERNAL_CODES.PROPERTY.NAME
+        });
+    }
+
+    if (!secretIsValid(secret)) {
+        return ok({
+            data: { msg: `Geheimwort '${secret}' ist nicht valide.` },
+            code: INTERNAL_CODES.PROPERTY.SECRET
+        });
+    }
+
+    if (!timestampIsValid(timestamp)) {
+        return ok({
+            data: { msg: `Zeitstempel '${timestamp}' ist nicht valide.` },
+            code: INTERNAL_CODES.PROPERTY.TIMESTAMP
+        });
+    }
+
     try {
-        const name = parseAndValidatetrackerName(JSON.parse(body));
-        const timestamp = parseAndValidateTimestamp(JSON.parse(body));
-        const secret = parseAndValidateSecret(JSON.parse(body));
+        if (await !verifySecret(name, secret)) {
+            return ok({
+                data: { msg: `Authentifizierung fehlgeschlagen.` },
+                code: INTERNAL_CODES.AUTHENTIFICATION
+            });
+        }
 
-        await authenticate(name, secret);
+        const entry = await addEntry(name, timestamp, ENTRY_TYPE.ENTRY);
 
-        const entry = await createEntry(name, timestamp);
-
-        return {
-            statusCode: 201,
-            body: JSON.stringify({ entry }),
-            headers: getHeaders()
-        };
+        return created({
+            data: { entry },
+            code: INTERNAL_CODES.SUCCESS
+        });
     } catch (e) {
-        return returnError(e);
+        return serverError(e);
     }
 }
