@@ -20,7 +20,7 @@ export default function Home(): JSX.Element {
 
             console.table({ secret });
             saveSecret(secret);
-            history.push(`/${name}`);
+            history.push(`/t/${name}`);
         } catch (e) {
             console.error({ msg: e.msg, code: e.internalCode });
         }
