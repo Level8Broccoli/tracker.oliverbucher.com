@@ -1,6 +1,6 @@
 import { createTracker, nameAlreadyExists } from './db/trackers';
 import { INTERNAL_CODES } from './utils/config';
-import { badRequest, methodNotAllowed, ok, serverError } from './utils/responses';
+import { badRequest, created, methodNotAllowed, ok, serverError } from './utils/responses';
 import { nameIsValid, timestampIsValid } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
@@ -37,7 +37,7 @@ export async function handler({ body, httpMethod }) {
 
         const secret = await createTracker(name, timestamp);
 
-        return ok({
+        return created({
             data: { secret },
             code: INTERNAL_CODES.SUCCESS
         });

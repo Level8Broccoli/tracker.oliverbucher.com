@@ -8,34 +8,49 @@ const getHeaders = (additionalHeaders = undefined) => {
     return additionalHeaders;
 };
 
-export const ok = (body) => {
+export const ok = (body, additionalHeaders) => {
     return {
         statusCode: 200,
         body: JSON.stringify(body),
-        headers: getHeaders()
+        headers: getHeaders(additionalHeaders)
     };
 };
 
-export const methodNotAllowed = () => {
+export const created = (body, additionalHeaders) => {
+    return {
+        statusCode: 201,
+        body: JSON.stringify(body),
+        headers: getHeaders(additionalHeaders)
+    };
+};
+
+export const methodNotAllowed = (additionalHeaders) => {
     return {
         statusCode: 405,
         body: JSON.stringify('Method Not Allowed'),
-        headers: getHeaders()
+        headers: getHeaders(additionalHeaders)
     };
 };
 
-export const badRequest = () => {
+export const badRequest = (additionalHeaders) => {
     return {
         statusCode: 400,
         body: JSON.stringify('Bad Request'),
-        headers: getHeaders()
+        headers: getHeaders(additionalHeaders)
     };
 };
 
-export const serverError = (body) => {
+export const noContent = (additionalHeaders) => {
+    return {
+        statusCode: 204,
+        headers: getHeaders(additionalHeaders)
+    };
+};
+
+export const serverError = (body, additionalHeaders) => {
     return {
         statusCode: 500,
         body: JSON.stringify(body),
-        headers: getHeaders()
+        headers: getHeaders(additionalHeaders)
     };
 };

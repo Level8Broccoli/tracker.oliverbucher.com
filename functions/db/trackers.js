@@ -4,11 +4,15 @@ import {
     Create,
     CreateCollection,
     CreateIndex,
+    Databases,
+    Delete,
+    Get,
     Index,
     Match,
     Paginate
 } from 'faunadb';
 import {
+    ALL_TRACKERS_INDEX,
     ALL_TRACKER_NAMES_INDEX,
     CONFIGS_COLLECTION,
     ENTRY_TYPE,
@@ -59,9 +63,12 @@ export const createTracker = async (name, timestamp) => {
 };
 
 export const deleteTracker = async (name) => {
+    const { ref } = await db.query(Get(Match(Index(ALL_TRACKERS_INDEX), Casefold(name))));
+    const { data } = await db.query(Delete(ref));
+    await db.query(Delete(Collection(name)));
     return {
-        name,
-        secret: 'secret'
+        name: data.name,
+        secret: data.secret
     };
 };
 

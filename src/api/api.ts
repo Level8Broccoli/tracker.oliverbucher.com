@@ -53,10 +53,9 @@ export const readAllEntryRequest = async (name: string): Promise<entry[]> => {
 };
 
 export const deleteTrackerRequest = async (name: string, secret: string): Promise<string> => {
-    const res = await fetch(`${HOST + ENTRY_POINT.TRACKER_DELETE}`, {
+    const res = await fetch(`${HOST + ENTRY_POINT.TRACKER_DELETE}/${name}`, {
         method: 'DELETE',
         body: JSON.stringify({
-            name,
             secret
         })
     });
@@ -83,8 +82,6 @@ export const authRequest = async (name: string, secret: string): Promise<boolean
         })
     });
     const data = await res.json();
-    console.log({ data });
-
 
     if (res.status === 200) {
         return data.success;
