@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { createTrackerRequest } from '../api/api';
+import { trackerCreate } from '../api/trackerCreate';
 import { NAME_RULE } from '../config';
 import { saveSecret } from '../utils/storage';
 
@@ -13,10 +13,10 @@ export default function Home(): JSX.Element {
         setHost(`https://${window.location.host}/t/`);
     }, []);
 
-    const createTracker = async (e: FormEvent<HTMLFormElement>) => {
+    const submitNewTracker = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const secret = await createTrackerRequest(name);
+            const secret = await trackerCreate(name);
 
             console.table({ secret });
             saveSecret(secret);
@@ -29,7 +29,7 @@ export default function Home(): JSX.Element {
     return (
         <main>
             <h1>Erstelle deinen eigenen Tracker</h1>
-            <form onSubmit={createTracker}>
+            <form onSubmit={submitNewTracker}>
                 <label htmlFor="name">Gib deinem Tracker einen Namen:</label>
                 {host}
                 <input

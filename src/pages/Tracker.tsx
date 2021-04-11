@@ -1,12 +1,10 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import {
-    authRequest,
-    createEntryRequest,
-    deleteTrackerRequest,
-    readAllEntryRequest
-} from '../api/api';
 import { entry } from '../api/schemas';
+import { entryReadAll } from '../api/entryReadAll';
+import { entryCreate } from '../api/entryCreate';
+import { trackerDelete } from '../api/trackerDelete';
+import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import { getSecret, saveSecret } from '../utils/storage';
 
@@ -18,7 +16,7 @@ export default function Tracker(): JSX.Element {
     useEffect(() => {
         (async () => {
             if (typeof name === 'string') {
-                const data = await readAllEntryRequest(name);
+                const data = await entryReadAll(name);
                 setEntries(data);
             }
         })();
@@ -27,14 +25,14 @@ export default function Tracker(): JSX.Element {
     const createEntry = () => {
         const secret = getSecret();
         if (typeof secret === 'string' && typeof name === 'string') {
-            createEntryRequest(name, secret);
+            entryCreate(name, secret);
         }
     };
 
     const deleteTracker = () => {
         const secret = getSecret();
         if (typeof secret === 'string' && typeof name === 'string') {
-            deleteTrackerRequest(name, secret);
+            trackerDelete(name, secret);
         }
     };
 
@@ -43,7 +41,7 @@ export default function Tracker(): JSX.Element {
 
         saveSecret(secret);
         try {
-            await authRequest(name, secret);
+            await auth(name, secret);
         } catch (e) {
             console.error({ msg: e.msg, code: e.internalCode });
         }
