@@ -74,3 +74,20 @@ export const deleteTrackerRequest = async (name: string, secret: string): Promis
         throw data;
     }
 };
+
+export const authRequest = async (name: string, secret: string): Promise<boolean> => {
+    const res = await fetch(HOST + ENTRY_POINT.AUTH, {
+        method: 'POST',
+        body: JSON.stringify({
+            name,
+            secret
+        })
+    });
+    const data = await res.json();
+
+    if (res.status === 200) {
+        return data.success;
+    } else {
+        throw data;
+    }
+};

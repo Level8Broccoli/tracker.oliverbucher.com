@@ -3,7 +3,7 @@ import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common'
 import { parseAndValidateSecret, parseAndValidatetrackerName } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
-    if (httpMethod !== 'GET') {
+    if (httpMethod !== 'POST') {
         return returnMethodNotAllowed();
     }
 
@@ -14,7 +14,7 @@ export async function handler({ body, httpMethod }) {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({}),
+            body: JSON.stringify({ success: true }),
             headers: getHeaders()
         };
     } catch (e) {
