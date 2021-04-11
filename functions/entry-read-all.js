@@ -1,10 +1,10 @@
-import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
+import { getHeaders, returnError, methodNotAllowed } from './utils/common';
 import { getAllEntries } from './utils/db';
 import { validatetrackerName } from './utils/validation';
 
 export async function handler({ path, httpMethod }) {
     if (httpMethod !== 'GET') {
-        return returnMethodNotAllowed();
+        return methodNotAllowed();
     }
 
     try {

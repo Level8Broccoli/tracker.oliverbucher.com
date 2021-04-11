@@ -61,7 +61,6 @@ export const deleteTrackerRequest = async (name: string, secret: string): Promis
         })
     });
     const data = await res.json();
-    console.log({ data });
 
     if (res.status === 200 && data.data) {
         return data.data.map((entry: any) => {
@@ -84,6 +83,8 @@ export const authRequest = async (name: string, secret: string): Promise<boolean
         })
     });
     const data = await res.json();
+    console.log({ data });
+
 
     if (res.status === 200) {
         return data.success;

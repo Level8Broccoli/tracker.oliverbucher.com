@@ -1,4 +1,4 @@
-import { ERROR_CODES } from './config';
+import { INTERNAL_CODES } from './config';
 import { getConfigEntry } from './db';
 
 export const authenticate = async (name, secret) => {
@@ -6,7 +6,7 @@ export const authenticate = async (name, secret) => {
     if (data.secret.toLowerCase() !== secret.toLowerCase()) {
         throw {
             msg: 'Authentication failed',
-            internalCode: ERROR_CODES.AUTHENTIFICATION_FAILED,
+            internalCode: INTERNAL_CODES.AUTHENTIFICATION_FAILED,
             statusCode: 401
         };
     }

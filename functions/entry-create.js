@@ -1,5 +1,5 @@
 import { authenticate } from './utils/auth';
-import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
+import { getHeaders, returnError, methodNotAllowed } from './utils/common';
 import { createEntry } from './utils/db';
 import {
     parseAndValidateSecret,
@@ -9,7 +9,7 @@ import {
 
 export async function handler({ body, httpMethod }) {
     if (httpMethod !== 'POST') {
-        return returnMethodNotAllowed();
+        return methodNotAllowed();
     }
 
     try {

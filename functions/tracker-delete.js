@@ -1,5 +1,5 @@
 import { authenticate } from './utils/auth';
-import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
+import { getHeaders, returnError, methodNotAllowed } from './utils/common';
 import { deletetracker } from './utils/db';
 import { parseAndValidatetrackerName, parseAndValidateSecret } from './utils/validation';
 
@@ -13,7 +13,7 @@ export async function handler({ body, httpMethod }) {
         };
     }
     if (httpMethod !== 'DELETE') {
-        return returnMethodNotAllowed();
+        return methodNotAllowed();
     }
 
     try {

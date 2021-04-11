@@ -12,14 +12,14 @@ export const ENTRY_TYPE = {
     ENTRY: 'entry'
 };
 
-export const ERROR_CODES = {
+export const INTERNAL_CODES = {
     PROPERTY: {
         NAME: 1,
         SECRET: 2,
         TIMESTAMP: 3
     },
     NAME_DUPLICATE: 10,
-    AUTHENTIFICATION_FAILED: 20,
+    AUTHENTIFICATION: 20,
     ERROR_WHILE_CREATING_SECRET: 30,
     DB_ERROR: 90
 };

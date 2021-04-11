@@ -1,23 +1,39 @@
-import { authenticate } from './utils/auth';
-import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
-import { parseAndValidateSecret, parseAndValidatetrackerName } from './utils/validation';
+import { verifySecret } from './db/auth';
+import { INTERNAL_CODES } from './utils/config';
+import { badRequest, methodNotAllowed, ok, serverError } from './utils/responses';
+import { nameIsValid, secretIsValid } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
     if (httpMethod !== 'POST') {
-        return returnMethodNotAllowed();
+        return methodNotAllowed();
+    }
+    const { name, secret } = JSON.parse(body);
+    if (typeof name !== 'string' || typeof secret !== 'string') {
+        return badRequest();
+    }
+
+    if (!nameIsValid(name)) {
+        return ok({
+            data: { msg: `Gewählter Name '${name}' ist nicht valide.` },
+            code: INTERNAL_CODES.PROPERTY.NAME
+        });
+    }
+
+    if (!secretIsValid(secret)) {
+        return ok({
+            data: { msg: `Geheimwort '${secret}' ist nicht valide.` },
+            code: INTERNAL_CODES.PROPERTY.SECRET
+        });
     }
 
     try {
-        const trackerName = parseAndValidatetrackerName(JSON.parse(body));
-        const secret = parseAndValidateSecret(JSON.parse(body));
-        await authenticate(trackerName, secret);
+        const secretVerified = await verifySecret(name, secret);
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ success: true }),
-            headers: getHeaders()
-        };
+        return ok({
+            data: { secretVerified },
+            code: INTERNAL_CODES.AUTHENTIFICATION
+        });
     } catch (e) {
-        return returnError(e);
+        return serverError(e);
     }
 }

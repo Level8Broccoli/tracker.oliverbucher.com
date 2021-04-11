@@ -1,4 +1,4 @@
-export const getHeaders = (additionalHeaders = undefined) => {
+const getHeaders = (additionalHeaders = undefined) => {
     if (process.env.LOCAL) {
         return {
             'access-control-allow-origin': '*',
@@ -8,10 +8,10 @@ export const getHeaders = (additionalHeaders = undefined) => {
     return additionalHeaders;
 };
 
-export const returnError = ({ msg, internalCode, statusCode = 400 }) => {
+export const ok = (body) => {
     return {
-        statusCode: statusCode,
-        body: JSON.stringify({ msg, internalCode }),
+        statusCode: 200,
+        body: JSON.stringify(body),
         headers: getHeaders()
     };
 };
@@ -28,6 +28,14 @@ export const badRequest = () => {
     return {
         statusCode: 400,
         body: JSON.stringify('Bad Request'),
+        headers: getHeaders()
+    };
+};
+
+export const serverError = (body) => {
+    return {
+        statusCode: 500,
+        body: JSON.stringify(body),
         headers: getHeaders()
     };
 };

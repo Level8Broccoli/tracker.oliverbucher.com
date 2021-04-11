@@ -19,7 +19,6 @@ export default function Tracker(): JSX.Element {
         (async () => {
             if (typeof name === 'string') {
                 const data = await readAllEntryRequest(name);
-                console.log({ data });
                 setEntries(data);
             }
         })();
@@ -28,8 +27,6 @@ export default function Tracker(): JSX.Element {
     const createEntry = () => {
         const secret = getSecret();
         if (typeof secret === 'string' && typeof name === 'string') {
-            console.log(secret);
-
             createEntryRequest(name, secret);
         }
     };
@@ -37,7 +34,6 @@ export default function Tracker(): JSX.Element {
     const deleteTracker = () => {
         const secret = getSecret();
         if (typeof secret === 'string' && typeof name === 'string') {
-            console.log(secret);
             deleteTrackerRequest(name, secret);
         }
     };
@@ -47,8 +43,7 @@ export default function Tracker(): JSX.Element {
 
         saveSecret(secret);
         try {
-            const res = await authRequest(name, secret);
-            console.log({ res });
+            await authRequest(name, secret);
         } catch (e) {
             console.error({ msg: e.msg, code: e.internalCode });
         }

@@ -1,4 +1,4 @@
-import { ERROR_CODES, SECRET_LENGTH, SECRET_RULE } from './config';
+import { INTERNAL_CODES, SECRET_LENGTH, SECRET_RULE } from './config';
 
 const wordList = [
     'Okay',
@@ -33,7 +33,7 @@ export const getRandomSecret = () => {
     if (wordList.length < SECRET_LENGTH) {
         throw {
             msg: 'Wordlist is too small to generate a secret!',
-            internalCode: ERROR_CODES.ERROR_WHILE_CREATING_SECRET,
+            internalCode: INTERNAL_CODES.ERROR_WHILE_CREATING_SECRET,
             statusCode: 500
         };
     }
@@ -49,7 +49,7 @@ export const getRandomSecret = () => {
     if (!SECRET_RULE.test(secret)) {
         throw {
             msg: 'Error happend while generating the secret.',
-            internalCode: ERROR_CODES.ERROR_WHILE_CREATING_SECRET,
+            internalCode: INTERNAL_CODES.ERROR_WHILE_CREATING_SECRET,
             statusCode: 500
         };
     }

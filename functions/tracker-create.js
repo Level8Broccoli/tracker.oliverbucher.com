@@ -1,5 +1,5 @@
-import { getHeaders, returnError, returnMethodNotAllowed } from './utils/common';
-import { ERROR_CODES } from './utils/config';
+import { getHeaders, returnError, methodNotAllowed } from './utils/common';
+import { INTERNAL_CODES } from './utils/config';
 import {
     checkIftrackerNameAlreadyExists,
     createConfigCollectionIfNotExists,
@@ -11,7 +11,7 @@ import { parseAndValidateTimestamp, parseAndValidatetrackerName } from './utils/
 
 export async function handler({ body, httpMethod }) {
     if (httpMethod !== 'POST') {
-        return returnMethodNotAllowed();
+        return methodNotAllowed();
     }
 
     try {
@@ -22,7 +22,7 @@ export async function handler({ body, httpMethod }) {
         if (await checkIftrackerNameAlreadyExists(name)) {
             throw {
                 msg: `Name '${name}' is already in use.`,
-                internalCode: ERROR_CODES.NAME_DUPLICATE,
+                internalCode: INTERNAL_CODES.NAME_DUPLICATE,
                 statusCode: 422
             };
         }
