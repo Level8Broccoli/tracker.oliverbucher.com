@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { createEntryRequest, readAllEntryRequest } from '../api/api';
+import { createEntryRequest, deleteTrackerRequest, readAllEntryRequest } from '../api/api';
 import { entry } from '../api/schemas';
 import { getSecret } from '../utils/storage';
 
@@ -27,10 +27,20 @@ export default function Tracker(): JSX.Element {
         }
     };
 
+    const deleteTracker = () => {
+        const secret = getSecret();
+        if (typeof secret === 'string' && typeof name === 'string') {
+            console.log(secret);
+            deleteTrackerRequest(name, secret);
+        }
+    };
+
     return (
         <main>
             <p>Name: {name}</p>
             <button onClick={createEntry}>+</button>
+            <button onClick={deleteTracker}>Löschen</button>
+            {/* <button onClick={authenticate}>Authentifizieren</button> */}
             <ul>
                 {entries.map((entry, i) => (
                     <li key={i}>

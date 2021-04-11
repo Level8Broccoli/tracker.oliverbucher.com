@@ -1,10 +1,11 @@
-export const getHeaders = () => {
+export const getHeaders = (additionalHeaders = undefined) => {
     if (process.env.LOCAL) {
         return {
-            'access-control-allow-origin': '*'
+            'access-control-allow-origin': '*',
+            ...additionalHeaders
         };
     }
-    return undefined;
+    return additionalHeaders;
 };
 
 export const returnError = ({ msg, internalCode, statusCode = 400 }) => {

@@ -4,6 +4,14 @@ import { deletetracker } from './utils/db';
 import { parseAndValidatetrackerName, parseAndValidateSecret } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
+    if (httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 204,
+            headers: getHeaders({
+                'Access-Control-Allow-Methods': 'DELETE'
+            })
+        };
+    }
     if (httpMethod !== 'DELETE') {
         return returnMethodNotAllowed();
     }

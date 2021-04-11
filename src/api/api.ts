@@ -51,3 +51,26 @@ export const readAllEntryRequest = async (name: string): Promise<entry[]> => {
         throw data;
     }
 };
+
+export const deleteTrackerRequest = async (name: string, secret: string): Promise<string> => {
+    const res = await fetch(`${HOST + ENTRY_POINT.TRACKER_DELETE}`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+            name,
+            secret
+        })
+    });
+    const data = await res.json();
+    console.log({ data });
+
+    if (res.status === 200 && data.data) {
+        return data.data.map((entry: any) => {
+            return {
+                type: entry.type,
+                timestamp: new Date(entry.timestamp['@ts'])
+            };
+        });
+    } else {
+        throw data;
+    }
+};
