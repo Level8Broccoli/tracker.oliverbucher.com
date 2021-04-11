@@ -1,16 +1,18 @@
 export const NAME_RULE = /^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/;
 export const SECRET_RULE = /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/;
 
-export const ERROR_CODES = {
+export const INTERNAL_CODES = {
     PROPERTY: {
         NAME: 1,
         SECRET: 2,
         TIMESTAMP: 3
     },
     NAME_DUPLICATE: 10,
-    AUTHENTIFICATION_FAILED: 20,
+    AUTHENTIFICATION: 20,
     ERROR_WHILE_CREATING_SECRET: 30,
-    DB_ERROR: 90
+    SUCCESS: 50,
+    DB_ERROR: 90,
+    DB: 95
 };
 
 export const USER_ERROR_MESSAGES = {

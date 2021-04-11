@@ -1,4 +1,5 @@
 import { ENTRY_POINT, HOST } from '../urls';
+import { authResponse, errorResponse } from './schemas';
 
 export const auth = async (name: string, secret: string): Promise<boolean> => {
     const res = await fetch(HOST + ENTRY_POINT.AUTH, {
@@ -8,11 +9,12 @@ export const auth = async (name: string, secret: string): Promise<boolean> => {
             secret
         })
     });
-    const data = await res.json();
+    const { data }: errorResponse | authResponse = await res.json();
 
-    if (res.status === 200) {
-        return data.success;
+    if ('secretVerified' in data) {
+        return data.secretVerified;
     } else {
-        throw data;
+        console.error(data.msg);
+        return false;
     }
 };

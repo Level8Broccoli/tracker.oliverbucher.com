@@ -40,11 +40,8 @@ export default function Tracker(): JSX.Element {
         e.preventDefault();
 
         saveSecret(secret);
-        try {
-            await auth(name, secret);
-        } catch (e) {
-            console.error({ msg: e.msg, code: e.internalCode });
-        }
+        const isAuthenticated = await auth(name, secret);
+        console.log({ isAuthenticated });
     };
 
     return (
