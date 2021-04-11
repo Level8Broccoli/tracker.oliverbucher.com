@@ -17,7 +17,9 @@ export default function Tracker(): JSX.Element {
         (async () => {
             if (typeof name === 'string') {
                 const data = await entryReadAll(name);
-                setEntries(data);
+                if (typeof data !== 'string') {
+                    setEntries(data);
+                }
             }
         })();
     }, [name]);
@@ -70,7 +72,7 @@ export default function Tracker(): JSX.Element {
             <ul>
                 {entries.map((entry, i) => (
                     <li key={i}>
-                        x{entry.type} | {entry.timestamp.toISOString()}
+                        {entry.type} | {entry.timestamp.toISOString()}
                     </li>
                 ))}
             </ul>

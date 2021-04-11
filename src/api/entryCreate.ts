@@ -1,5 +1,28 @@
 import { ENTRY_POINT, HOST } from '../urls';
-import { entry, entryCreateResponse, errorResponse } from './schemas';
+import { entry, entryCreateResponse, entryResponse, errorResponse } from './schemas';
+
+interface entryCreateResponseBeforeParsing {
+    data: { entry: entryResponse };
+    code: number;
+}
+
+const parseTimestamp = ({
+    data,
+    code
+}: errorResponse | entryCreateResponseBeforeParsing): errorResponse | entryCreateResponse => {
+    if ('entry' in data) {
+        return {
+            data: {
+                entry: {
+                    ...data.entry,
+                    timestamp: new Date(data.entry.timestamp)
+                }
+            },
+            code
+        };
+    }
+    return { data, code };
+};
 
 export const entryCreate = async (name: string, secret: string): Promise<string | entry> => {
     const timestamp = new Date().toISOString();
@@ -11,14 +34,10 @@ export const entryCreate = async (name: string, secret: string): Promise<string 
             timestamp
         })
     });
-    const { data }: errorResponse | entryCreateResponse = await res.json();
+    const { data } = parseTimestamp(await res.json());
 
     if ('entry' in data) {
-        return {
-            ...data.entry,
-            timestamp: new Date(data.entry.timestamp)
-        };
-    } else {
-        return data.msg;
+        return data.entry;
     }
+    return data.msg;
 };

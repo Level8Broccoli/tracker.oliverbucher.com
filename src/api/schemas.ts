@@ -37,6 +37,11 @@ export interface trackerDeleteResponse {
 }
 
 export interface entryCreateResponse {
-    data: { entry: entryResponse };
+    data: { entry: entry };
+    code: number;
+}
+
+export interface entryReadAllResponse {
+    data: { data: entry[] };
     code: number;
 }

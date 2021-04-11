@@ -25,7 +25,7 @@ export async function handler({ path, httpMethod }) {
         const data = await getAllEntries(name);
 
         return ok({
-            data,
+            data: { data },
             code: INTERNAL_CODES.SUCCESS
         });
     } catch (e) {
