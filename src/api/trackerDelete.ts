@@ -1,22 +1,27 @@
 import { ENTRY_POINT, HOST } from '../urls';
+import { errorResponse, trackerDeleteResponse } from './schemas';
 
-export const trackerDelete = async (name: string, secret: string): Promise<string> => {
+export const trackerDelete = async (
+    name: string,
+    secret: string
+): Promise<{ msg: string; error: boolean }> => {
     const res = await fetch(`${HOST + ENTRY_POINT.TRACKER_DELETE}/${name}`, {
         method: 'DELETE',
         body: JSON.stringify({
             secret
         })
     });
-    const data = await res.json();
+    const { data }: errorResponse | trackerDeleteResponse = await res.json();
 
-    if (res.status === 200 && data.data) {
-        return data.data.map((entry: any) => {
-            return {
-                type: entry.type,
-                timestamp: new Date(entry.timestamp)
-            };
-        });
+    if ('data' in data) {
+        return {
+            msg: 'Erfolgreich gelöscht',
+            error: false
+        };
     } else {
-        throw data;
+        return {
+            msg: data.msg,
+            error: true
+        };
     }
 };

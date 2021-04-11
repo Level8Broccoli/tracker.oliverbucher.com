@@ -19,3 +19,14 @@ export interface trackerCreateResponse {
     data: { secret: string };
     code: number;
 }
+
+interface configEntry {
+    name: string;
+    secret: string;
+    timestamp: string;
+}
+
+export interface trackerDeleteResponse {
+    data: { data: configEntry };
+    code: number;
+}
