@@ -8,5 +8,5 @@
 
 [[redirects]]
   from = "/t/*"
-  to = "/:splat"
+  to = "/"
   status = 200
