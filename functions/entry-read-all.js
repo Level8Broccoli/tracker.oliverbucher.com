@@ -8,7 +8,7 @@ export async function handler({ path, httpMethod }) {
     }
 
     try {
-        const name = validatetrackerName(path.split('/').slice(-1).join());
+        const name = validatetrackerName(path.split('/').slice(-1).join().toLowerCase());
         const data = await getAllEntries(name);
 
         return {

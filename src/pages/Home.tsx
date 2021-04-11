@@ -10,7 +10,7 @@ export default function Home(): JSX.Element {
     const history = useHistory();
 
     useEffect(() => {
-        setHost(`https://${window.location.host}`);
+        setHost(`https://${window.location.host}/`);
     }, []);
 
     const createTracker = async (e: FormEvent<HTMLFormElement>) => {

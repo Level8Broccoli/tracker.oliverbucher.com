@@ -15,7 +15,7 @@ export const parseAndValidatetrackerName = (body) => {
             statusCode: 422
         };
     }
-    const name = body.name.trim();
+    const name = body.name.trim().toLowerCase();
     if (!NAME_RULE.test(name) || name === CONFIGS_COLLECTION) {
         throw {
             msg: `Invalid name '${name}'`,

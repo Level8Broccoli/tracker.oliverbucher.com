@@ -12,7 +12,8 @@ import {
     Match,
     Paginate,
     Map as FMap,
-    Lambda
+    Lambda,
+    Casefold
 } from 'faunadb';
 import {
     ALL_TRACKERS_INDEX,
@@ -76,7 +77,9 @@ export const createConfigCollectionIfNotExists = async () => {
 };
 
 export const checkIftrackerNameAlreadyExists = async (name) => {
-    const { data } = await db.query(Paginate(Match(Index(ALL_TRACKER_NAMES_INDEX), name)));
+    const { data } = await db.query(
+        Paginate(Match(Index(ALL_TRACKER_NAMES_INDEX), Casefold(name)))
+    );
     return data.length > 0;
 };
 
