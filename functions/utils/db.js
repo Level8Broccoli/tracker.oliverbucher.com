@@ -100,7 +100,7 @@ const createStartEntry = async (collectionRef, ts) => {
 const createCollectionIndex = async (name, collectionRef) => {
     return await db.query(
         CreateIndex({
-            name: `${name}${INDEX_SUFFIX}`,
+            name: `${name}_index`,
             unique: false,
             serialized: true,
             source: collectionRef
@@ -134,7 +134,7 @@ export const createEntry = async (name, ts) => {
 export const getAllEntries = async (name) => {
     const { data } = await db.query(
         FMap(
-            Paginate(Match(Index(`${name}${INDEX_SUFFIX}`))),
+            Paginate(Match(Index(`${name}_index`))),
             Lambda((entry) => Get(entry))
         )
     );

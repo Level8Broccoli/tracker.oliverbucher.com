@@ -1,3 +1,4 @@
+import { methods } from './http/utils';
 import { verifySecret } from './db/auth';
 import { deleteTracker } from './db/trackers';
 import { INTERNAL_CODES } from './utils/config';
@@ -5,12 +6,12 @@ import { badRequest, methodNotAllowed, noContent, ok, serverError } from './util
 import { nameIsValid, secretIsValid } from './utils/validation';
 
 export async function handler({ path, body, httpMethod }) {
-    if (httpMethod === 'OPTIONS') {
+    if (httpMethod === methods.OPTIONS) {
         return noContent({
             'Access-Control-Allow-Methods': 'DELETE'
         });
     }
-    if (httpMethod !== 'DELETE') {
+    if (httpMethod !== methods.DELETE) {
         return methodNotAllowed();
     }
 

@@ -5,8 +5,6 @@ export const db = new Client({
     secret: process.env.FAUNADB_SECRET
 });
 
-export const toTimeEntity = (timestamp) => Time(timestamp);
-
 export const createConfigCollectionIfNotExists = async () => {
     const collectionExists = await db.query(Exists(Collection(CONFIGS_COLLECTION)));
     if (collectionExists) {

@@ -1,22 +1,34 @@
-import { getHeaders, returnError, methodNotAllowed } from './utils/common';
-import { getAllEntries } from './utils/db';
-import { validatetrackerName } from './utils/validation';
+import { getAllEntries } from './db/entries';
+import { methods } from './http/utils';
+import { INTERNAL_CODES } from './utils/config';
+import { badRequest, methodNotAllowed, ok, serverError } from './utils/responses';
+import { nameIsValid } from './utils/validation';
 
 export async function handler({ path, httpMethod }) {
-    if (httpMethod !== 'GET') {
+    if (httpMethod !== methods.GET) {
         return methodNotAllowed();
     }
 
+    const [name] = path.split('/').slice(-1);
+    if (typeof name !== 'string') {
+        return badRequest();
+    }
+
+    if (!nameIsValid(name)) {
+        return ok({
+            data: { msg: `Gewählter Name '${name}' ist nicht valide.` },
+            code: INTERNAL_CODES.PROPERTY.NAME
+        });
+    }
+
     try {
-        const name = validatetrackerName(path.split('/').slice(-1).join().toLowerCase());
         const data = await getAllEntries(name);
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ data }),
-            headers: getHeaders()
-        };
+        return ok({
+            data,
+            code: INTERNAL_CODES.SUCCESS
+        });
     } catch (e) {
-        return returnError(e);
+        return serverError(e);
     }
 }

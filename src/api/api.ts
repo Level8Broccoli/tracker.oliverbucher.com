@@ -39,12 +39,11 @@ export const createEntryRequest = async (name: string, secret: string): Promise<
 export const readAllEntryRequest = async (name: string): Promise<entry[]> => {
     const res = await fetch(`${HOST + ENTRY_POINT.ENTRY_READ_ALL}/${name}`);
     const data = await res.json();
-
     if (res.status === 200 && data.data) {
         return data.data.map((entry: any) => {
             return {
                 type: entry.type,
-                timestamp: new Date(entry.timestamp['@ts'])
+                timestamp: new Date(entry.timestamp)
             };
         });
     } else {
@@ -65,7 +64,7 @@ export const deleteTrackerRequest = async (name: string, secret: string): Promis
         return data.data.map((entry: any) => {
             return {
                 type: entry.type,
-                timestamp: new Date(entry.timestamp['@ts'])
+                timestamp: new Date(entry.timestamp)
             };
         });
     } else {

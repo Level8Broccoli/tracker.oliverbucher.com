@@ -1,10 +1,11 @@
 import { createTracker, nameAlreadyExists } from './db/trackers';
+import { methods } from './http/utils';
 import { INTERNAL_CODES } from './utils/config';
 import { badRequest, created, methodNotAllowed, ok, serverError } from './utils/responses';
 import { nameIsValid, timestampIsValid } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
-    if (httpMethod !== 'POST') {
+    if (httpMethod !== methods.POST) {
         return methodNotAllowed();
     }
 

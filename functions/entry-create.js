@@ -1,3 +1,4 @@
+import { methods } from './http/utils';
 import { authenticate } from './utils/auth';
 import { getHeaders, returnError, methodNotAllowed } from './utils/common';
 import { createEntry } from './utils/db';
@@ -8,7 +9,7 @@ import {
 } from './utils/validation';
 
 export async function handler({ body, httpMethod }) {
-    if (httpMethod !== 'POST') {
+    if (httpMethod !== methods.POST) {
         return methodNotAllowed();
     }
 
