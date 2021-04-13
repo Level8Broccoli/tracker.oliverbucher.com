@@ -1,47 +1,42 @@
-type entryType = 'created' | 'entry';
+import { entryType } from '../models/models';
 
-export interface entry {
-    timestamp: Date;
-    type: entryType;
-}
-
-export interface entryResponse {
+export interface entryAPI {
     timestamp: string;
     type: entryType;
 }
 
-export interface errorResponse {
+export interface errorResponseAPI {
     data: { msg: string };
     code: number;
 }
 
-export interface authResponse {
+export interface authResponseAPI {
     data: { secretVerified: boolean };
     code: number;
 }
 
-export interface trackerCreateResponse {
+export interface trackerCreateAPI {
     data: { secret: string };
     code: number;
 }
 
-interface configEntry {
+interface configEntryAPI {
     name: string;
     secret: string;
     timestamp: string;
 }
 
-export interface trackerDeleteResponse {
-    data: { data: configEntry };
+export interface trackerDeleteAPI {
+    data: { data: configEntryAPI };
     code: number;
 }
 
-export interface entryCreateResponse {
-    data: { entry: entry };
+export interface entryCreateAPI {
+    data: { entry: entryAPI };
     code: number;
 }
 
-export interface entryReadAllResponse {
-    data: { data: entry[] };
+export interface entryReadAllAPI {
+    data: { data: entryAPI[] };
     code: number;
 }

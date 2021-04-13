@@ -1,8 +1,9 @@
+import { DateTime } from 'luxon';
 import { ENTRY_POINT, HOST } from '../urls';
-import { errorResponse, trackerCreateResponse } from './schemas';
+import { errorResponseAPI, trackerCreateAPI } from './schemas';
 
 export const trackerCreate = async (name: string): Promise<{ data: string; error: boolean }> => {
-    const timestamp = new Date().toISOString();
+    const timestamp = DateTime.now().toISO();
     const res = await fetch(HOST + ENTRY_POINT.TRACKER_CREATE, {
         method: 'POST',
         body: JSON.stringify({
@@ -10,7 +11,7 @@ export const trackerCreate = async (name: string): Promise<{ data: string; error
             timestamp
         })
     });
-    const { data }: errorResponse | trackerCreateResponse = await res.json();
+    const { data }: errorResponseAPI | trackerCreateAPI = await res.json();
     if ('secret' in data) {
         return {
             data: data.secret,

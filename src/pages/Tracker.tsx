@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { entry } from '../api/schemas';
+import { entryModel } from '../models/models';
 import { entryReadAll } from '../api/entryReadAll';
 import { entryCreate } from '../api/entryCreate';
 import { trackerDelete } from '../api/trackerDelete';
@@ -10,7 +10,7 @@ import { getSecret, saveSecret } from '../utils/storage';
 
 export default function Tracker(): JSX.Element {
     const { name } = useParams<{ name: string }>();
-    const [entries, setEntries] = useState<entry[]>([]);
+    const [entries, setEntries] = useState<entryModel[]>([]);
     const [secret, setSecret] = useState('');
 
     useEffect(() => {
@@ -72,7 +72,7 @@ export default function Tracker(): JSX.Element {
             <ul>
                 {entries.map((entry, i) => (
                     <li key={i}>
-                        {entry.type} | {entry.timestamp.toISOString()}
+                        {entry.type} | {entry.timestamp.toISO()}
                     </li>
                 ))}
             </ul>

@@ -1,5 +1,5 @@
 import { ENTRY_POINT, HOST } from '../urls';
-import { authResponse, errorResponse } from './schemas';
+import { errorResponseAPI, authResponseAPI } from './schemas';
 
 export const auth = async (name: string, secret: string): Promise<boolean> => {
     const res = await fetch(HOST + ENTRY_POINT.AUTH, {
@@ -9,7 +9,7 @@ export const auth = async (name: string, secret: string): Promise<boolean> => {
             secret
         })
     });
-    const { data }: errorResponse | authResponse = await res.json();
+    const { data }: errorResponseAPI | authResponseAPI = await res.json();
 
     if ('secretVerified' in data) {
         return data.secretVerified;

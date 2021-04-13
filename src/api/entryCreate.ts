@@ -1,21 +1,18 @@
+import { DateTime } from 'luxon';
+import { entryCreateModel, entryModel } from '../models/models';
 import { ENTRY_POINT, HOST } from '../urls';
-import { entry, entryCreateResponse, entryResponse, errorResponse } from './schemas';
-
-interface entryCreateResponseBeforeParsing {
-    data: { entry: entryResponse };
-    code: number;
-}
+import { entryCreateAPI, errorResponseAPI } from './schemas';
 
 const parseTimestamp = ({
     data,
     code
-}: errorResponse | entryCreateResponseBeforeParsing): errorResponse | entryCreateResponse => {
+}: errorResponseAPI | entryCreateAPI): errorResponseAPI | entryCreateModel => {
     if ('entry' in data) {
         return {
             data: {
                 entry: {
                     ...data.entry,
-                    timestamp: new Date(data.entry.timestamp)
+                    timestamp: DateTime.fromISO(data.entry.timestamp)
                 }
             },
             code
@@ -24,8 +21,8 @@ const parseTimestamp = ({
     return { data, code };
 };
 
-export const entryCreate = async (name: string, secret: string): Promise<string | entry> => {
-    const timestamp = new Date().toISOString();
+export const entryCreate = async (name: string, secret: string): Promise<string | entryModel> => {
+    const timestamp = DateTime.now().toISO();
     const res = await fetch(HOST + ENTRY_POINT.ENTRY_CREATE, {
         method: 'POST',
         body: JSON.stringify({

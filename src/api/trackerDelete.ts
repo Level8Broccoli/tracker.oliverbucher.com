@@ -1,5 +1,5 @@
 import { ENTRY_POINT, HOST } from '../urls';
-import { errorResponse, trackerDeleteResponse } from './schemas';
+import { errorResponseAPI, trackerDeleteAPI } from './schemas';
 
 export const trackerDelete = async (
     name: string,
@@ -11,7 +11,7 @@ export const trackerDelete = async (
             secret
         })
     });
-    const { data }: errorResponse | trackerDeleteResponse = await res.json();
+    const { data }: errorResponseAPI | trackerDeleteAPI = await res.json();
 
     if ('data' in data) {
         return {
