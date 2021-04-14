@@ -67,6 +67,11 @@ export default function Tracker(): JSX.Element {
         setAuthenticated(isAuthenticated);
     };
 
+    const logout = () => {
+        deleteSecret(name);
+        setAuthenticated(false);
+    };
+
     if (!loading && entries.length === 0) {
         return <PageNotFound></PageNotFound>;
     }
@@ -77,7 +82,12 @@ export default function Tracker(): JSX.Element {
             <button onClick={createEntry}>+</button>
             <button onClick={deleteTracker}>Löschen</button>
             {authenticated ? (
-                <h2>Online</h2>
+                <div>
+                    <h2>Online</h2>
+                    <form onSubmit={logout}>
+                        <button type="submit">Abmelden</button>
+                    </form>
+                </div>
             ) : (
                 <form onSubmit={authenticate}>
                     <label htmlFor="secret">Geheimwort</label>

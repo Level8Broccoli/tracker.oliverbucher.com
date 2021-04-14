@@ -28,7 +28,8 @@ export default function Home(): JSX.Element {
 
     return (
         <main>
-            <h1>Erstelle deinen eigenen Tracker</h1>
+            <h1>TRK</h1>
+            <h2>Erstelle deinen eigenen Tracker</h2>
             <form onSubmit={submitNewTracker}>
                 <label htmlFor="name">Gib deinem Tracker einen Namen:</label>
                 {host}
