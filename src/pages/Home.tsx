@@ -21,7 +21,7 @@ export default function Home(): JSX.Element {
         if (error) {
             console.error(data);
         } else {
-            saveSecret(data);
+            saveSecret(name, data);
             history.push(`/t/${name}`);
         }
     };

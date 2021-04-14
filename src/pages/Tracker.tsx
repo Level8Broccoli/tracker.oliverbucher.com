@@ -7,7 +7,7 @@ import { entryCreate } from '../api/entryCreate';
 import { trackerDelete } from '../api/trackerDelete';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
-import { getSecret, saveSecret } from '../utils/storage';
+import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
 import { useHistory } from 'react-router-dom';
 
 export default function Tracker(): JSX.Element {
@@ -28,7 +28,7 @@ export default function Tracker(): JSX.Element {
                     setEntries(data);
                 }
 
-                const secret = getSecret();
+                const secret = getSecret(name);
                 if (typeof secret === 'string') {
                     const isAuthenticated = await auth(name, secret);
                     setAuthenticated(isAuthenticated);
@@ -38,7 +38,7 @@ export default function Tracker(): JSX.Element {
     }, [name]);
 
     const createEntry = async () => {
-        const secret = getSecret();
+        const secret = getSecret(name);
         if (typeof secret === 'string' && typeof name === 'string') {
             const data = await entryCreate(name, secret);
 
@@ -51,9 +51,10 @@ export default function Tracker(): JSX.Element {
     };
 
     const deleteTracker = async () => {
-        const secret = getSecret();
+        const secret = getSecret(name);
         if (typeof secret === 'string' && typeof name === 'string') {
             await trackerDelete(name, secret);
+            deleteSecret(name);
             history.push('/');
         }
     };
@@ -61,7 +62,7 @@ export default function Tracker(): JSX.Element {
     const authenticate = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        saveSecret(secret);
+        saveSecret(name, secret);
         const isAuthenticated = await auth(name, secret);
         setAuthenticated(isAuthenticated);
     };
