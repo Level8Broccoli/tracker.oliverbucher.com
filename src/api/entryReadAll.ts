@@ -7,7 +7,7 @@ const parseTimestamps = ({
     data,
     code
 }: errorResponseAPI | entryReadAllAPI): errorResponseAPI | entryReadAllModel => {
-    if ('data' in data) {
+    if (data && 'data' in data) {
         const parsedList = data.data.map((entry) => ({
             type: entry.type,
             timestamp: DateTime.fromISO(entry.timestamp)
@@ -21,13 +21,14 @@ const parseTimestamps = ({
     return { data, code };
 };
 
-export const entryReadAll = async (name: string): Promise<entryModel[] | string> => {
+export const entryReadAll = async (name: string): Promise<entryModel[] | string | undefined> => {
     const res = await fetch(`${HOST + ENTRY_POINT.ENTRY_READ_ALL}/${name}`);
 
     const { data } = parseTimestamps(await res.json());
 
-    if ('data' in data) {
+    if (data && 'data' in data) {
         return data.data;
+    } else if (data && 'msg' in data) {
+        return data.msg;
     }
-    return data.msg;
 };

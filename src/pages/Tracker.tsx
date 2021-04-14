@@ -1,4 +1,5 @@
 import React, { FormEvent, useEffect, useState } from 'react';
+import PageNotFound from './PageNotFound';
 import { useParams } from 'react-router';
 import { entryModel } from '../models/models';
 import { entryReadAll } from '../api/entryReadAll';
@@ -7,18 +8,30 @@ import { trackerDelete } from '../api/trackerDelete';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import { getSecret, saveSecret } from '../utils/storage';
+import { useHistory } from 'react-router-dom';
 
 export default function Tracker(): JSX.Element {
     const { name } = useParams<{ name: string }>();
     const [entries, setEntries] = useState<entryModel[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [authenticated, setAuthenticated] = useState(false);
     const [secret, setSecret] = useState('');
+    const history = useHistory();
 
     useEffect(() => {
         (async () => {
             if (typeof name === 'string') {
                 const data = await entryReadAll(name);
-                if (typeof data !== 'string') {
+
+                setLoading(false);
+                if (typeof data !== 'string' && typeof data !== 'undefined') {
                     setEntries(data);
+                }
+
+                const secret = getSecret();
+                if (typeof secret === 'string') {
+                    const isAuthenticated = await auth(name, secret);
+                    setAuthenticated(isAuthenticated);
                 }
             }
         })();
@@ -37,10 +50,11 @@ export default function Tracker(): JSX.Element {
         }
     };
 
-    const deleteTracker = () => {
+    const deleteTracker = async () => {
         const secret = getSecret();
         if (typeof secret === 'string' && typeof name === 'string') {
-            trackerDelete(name, secret);
+            await trackerDelete(name, secret);
+            history.push('/');
         }
     };
 
@@ -49,26 +63,34 @@ export default function Tracker(): JSX.Element {
 
         saveSecret(secret);
         const isAuthenticated = await auth(name, secret);
-        console.log({ isAuthenticated });
+        setAuthenticated(isAuthenticated);
     };
+
+    if (!loading && entries.length === 0) {
+        return <PageNotFound></PageNotFound>;
+    }
 
     return (
         <main>
             <p>Name: {name}</p>
             <button onClick={createEntry}>+</button>
             <button onClick={deleteTracker}>Löschen</button>
-            <form onSubmit={authenticate}>
-                <label htmlFor="secret">Geheimwort</label>
-                <input
-                    id="secret"
-                    type="text"
-                    placeholder="dein Geheimwort"
-                    pattern={SECRET_RULE.toString().slice(1, -1)}
-                    value={secret}
-                    onChange={(e) => setSecret(e.target.value)}
-                />
-                <button type="submit">Anmelden</button>
-            </form>
+            {authenticated ? (
+                <h2>Online</h2>
+            ) : (
+                <form onSubmit={authenticate}>
+                    <label htmlFor="secret">Geheimwort</label>
+                    <input
+                        id="secret"
+                        type="text"
+                        placeholder="dein Geheimwort"
+                        pattern={SECRET_RULE.toString().slice(1, -1)}
+                        value={secret}
+                        onChange={(e) => setSecret(e.target.value)}
+                    />
+                    <button type="submit">Anmelden</button>
+                </form>
+            )}
             <ul>
                 {entries.map((entry, i) => (
                     <li key={i}>
