@@ -9,8 +9,6 @@
         "build": "tsc && vite build",
         "lint": "eslint --fix .",
         "serve": "vite preview",
-        "netlify:serve": "env-cmd netlify-lambda serve functions",
-        "netlify:build": "netlify-lambda build functions",
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
     },
     "dependencies": {

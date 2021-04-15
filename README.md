@@ -7,17 +7,18 @@
 Install dependencies:
 
 ```sh
-$ yarn
+$ cd backend yarn
+$ cd frontend yarn
 ```
 
 Serve lambda function locally:
 
 ```sh
-$ yarn netlify:serve
+$ cd backend && yarn netlify:serve
 ```
 
 Start frontend development:
 
 ```sh
-$ yarn dev
+$ cd frontend && yarn dev
 ```
