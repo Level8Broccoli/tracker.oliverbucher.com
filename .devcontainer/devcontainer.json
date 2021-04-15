@@ -1,5 +1,5 @@
 {
-    "name": "tracker.oliverbucher.com",
+    "name": "trkr.lvl8.io",
     "build": {
         "dockerfile": "./Dockerfile.dev"
     },
