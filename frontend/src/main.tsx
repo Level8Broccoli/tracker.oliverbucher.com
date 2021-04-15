@@ -13,7 +13,7 @@ ReactDOM.render(
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/t/:name">
+                <Route path="/:name">
                     <Tracker />
                 </Route>
                 <Route path="*">

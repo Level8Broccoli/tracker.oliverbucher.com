@@ -10,7 +10,7 @@ export default function Home(): JSX.Element {
     const history = useHistory();
 
     useEffect(() => {
-        setHost(`https://${window.location.host}/t/`);
+        setHost(`https://${window.location.host}/`);
     }, []);
 
     const submitNewTracker = async (e: FormEvent<HTMLFormElement>) => {
@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
             console.error(data);
         } else {
             saveSecret(name, data);
-            history.push(`/t/${name}`);
+            history.push(`/${name}`);
         }
     };
 
