@@ -1,5 +1,5 @@
 {
-    "name": "tracker.oliverbucher.com",
+    "name": "trkr.lvl8.io",
     "version": "0.1.0",
     "repository": "git@github.com:Level8Broccoli/tracker.oliverbucher.com.git",
     "author": "Oliver Bucher <7040739+Level8Broccoli@users.noreply.github.com>",
@@ -14,7 +14,6 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
     },
     "dependencies": {
-        "faunadb": "^4.1.3",
         "luxon": "^1.26.0",
         "react": "17.0.2",
         "react-dom": "17.0.2",
@@ -29,7 +28,6 @@
         "@typescript-eslint/eslint-plugin": "^4.21.0",
         "@typescript-eslint/parser": "^4.21.0",
         "@vitejs/plugin-react-refresh": "^1.3.2",
-        "env-cmd": "^10.1.0",
         "eslint": "^7.23.0",
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -37,7 +35,6 @@
         "eslint-plugin-react": "^7.23.1",
         "eslint-plugin-react-hooks": "^4.2.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
-        "netlify-lambda": "^2.0.3",
         "prettier": "^2.2.1",
         "typescript": "^4.2.3",
         "vite": "^2.1.5"

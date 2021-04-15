@@ -5,8 +5,3 @@
 [functions]
   directory = "functions"
   node_bundler = "esbuild"
-
-[[redirects]]
-  from = "/t/*"
-  to = "/"
-  status = 200

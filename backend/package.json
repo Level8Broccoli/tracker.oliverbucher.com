@@ -1,0 +1,17 @@
+{
+	"name": "api.trkr.lvl8.io",
+	"version": "0.1.0",
+	"repository": "git@github.com:Level8Broccoli/tracker.oliverbucher.com.git",
+	"author": "Oliver Bucher <7040739+Level8Broccoli@users.noreply.github.com>",
+	"private": true,
+	"scripts": {
+		"netlify:serve": "env-cmd netlify-lambda serve functions"
+	},
+	"devDependencies": {
+		"env-cmd": "^10.1.0",
+		"netlify-lambda": "^2.0.3"
+	},
+	"dependencies": {
+		"faunadb": "^4.2.0"
+	}
+}
