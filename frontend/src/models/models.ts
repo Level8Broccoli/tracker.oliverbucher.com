@@ -5,6 +5,7 @@ export type entryType = 'created' | 'entry';
 export interface entryModel {
     timestamp: DateTime;
     type: entryType;
+    ref: number;
 }
 
 export interface entryCreateModel {

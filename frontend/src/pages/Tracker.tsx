@@ -59,6 +59,10 @@ export default function Tracker(): JSX.Element {
         }
     };
 
+    const deleteEntry = (id: number) => {
+        console.log(id);
+    };
+
     const authenticate = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -103,9 +107,10 @@ export default function Tracker(): JSX.Element {
                 </form>
             )}
             <ul>
-                {entries.map((entry, i) => (
-                    <li key={i}>
+                {entries.map((entry) => (
+                    <li key={entry.ref}>
                         {entry.type} | {entry.timestamp.toISO()}
+                        <button onClick={() => deleteEntry(entry.ref)}>x</button>
                     </li>
                 ))}
             </ul>

@@ -10,7 +10,8 @@ const parseTimestamps = ({
     if (data && 'data' in data) {
         const parsedList = data.data.map((entry) => ({
             type: entry.type,
-            timestamp: DateTime.fromISO(entry.timestamp)
+            timestamp: DateTime.fromISO(entry.timestamp),
+            ref: entry.ref
         }));
 
         return {
