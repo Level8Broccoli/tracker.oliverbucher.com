@@ -2,21 +2,23 @@ import {
   Casefold,
   Collection,
   Create,
+  Delete,
   Documents,
   Get,
   Lambda,
   Map as FaunaMap,
   Paginate,
+  Ref,
 } from "faunadb";
 import { db } from "./db";
 
 export const addEntry = async (name, timestamp, type) => {
-  const { data } = await db.query(
+  const { data, ref } = await db.query(
     Create(Collection(Casefold(name)), {
       data: { timestamp, type: Casefold(type) },
     })
   );
-  return data;
+  return { ...data, ref: ref.id };
 };
 
 export const getAllEntries = async (name) => {
@@ -27,4 +29,11 @@ export const getAllEntries = async (name) => {
     )
   );
   return data.map(({ data, ref }) => ({ ...data, ref: ref.id }));
+};
+
+export const deleteEntry = async (name, id) => {
+  const { data, ref } = await db.query(
+    Delete(Ref(Collection(Casefold(name)), id))
+  );
+  return { ...data, ref: ref.id };
 };

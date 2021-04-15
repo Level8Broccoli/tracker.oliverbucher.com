@@ -5,6 +5,7 @@ import { entryModel } from '../models/models';
 import { entryReadAll } from '../api/entryReadAll';
 import { entryCreate } from '../api/entryCreate';
 import { trackerDelete } from '../api/trackerDelete';
+import { entryDelete } from '../api/entryDelete';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
@@ -59,8 +60,18 @@ export default function Tracker(): JSX.Element {
         }
     };
 
-    const deleteEntry = (id: number) => {
-        console.log(id);
+    const deleteEntry = async (index: number, id: number) => {
+        const secret = getSecret(name);
+        if (typeof secret === 'string' && typeof name === 'string') {
+            const success = await entryDelete(name, secret, id);
+            if (success) {
+                setEntries((prevList) => {
+                    const newList = [...prevList];
+                    newList.splice(index, 1);
+                    return newList;
+                });
+            }
+        }
     };
 
     const authenticate = async (e: FormEvent<HTMLFormElement>) => {
@@ -94,11 +105,11 @@ export default function Tracker(): JSX.Element {
                 </div>
             ) : (
                 <form onSubmit={authenticate}>
-                    <label htmlFor="secret">Geheimwort</label>
+                    <label htmlFor="secret">Geheimwörter</label>
                     <input
                         id="secret"
                         type="text"
-                        placeholder="dein Geheimwort"
+                        placeholder="deine Geheimwörter"
                         pattern={SECRET_RULE.toString().slice(1, -1)}
                         value={secret}
                         onChange={(e) => setSecret(e.target.value)}
@@ -107,10 +118,10 @@ export default function Tracker(): JSX.Element {
                 </form>
             )}
             <ul>
-                {entries.map((entry) => (
+                {entries.map((entry, i) => (
                     <li key={entry.ref}>
-                        {entry.type} | {entry.timestamp.toISO()}
-                        <button onClick={() => deleteEntry(entry.ref)}>x</button>
+                        {entry.type} | {entry.timestamp.toISO()} | {entry.ref}
+                        <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
                     </li>
                 ))}
             </ul>

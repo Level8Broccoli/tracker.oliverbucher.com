@@ -11,6 +11,7 @@ export const ENTRY_POINT = {
     TRACKER_CREATE: `${PATH_TO_LAMBDA_FUNCTIONS}/tracker-create`,
     TRACKER_DELETE: `${PATH_TO_LAMBDA_FUNCTIONS}/tracker-delete`,
     ENTRY_CREATE: `${PATH_TO_LAMBDA_FUNCTIONS}/entry-create`,
+    ENTRY_DELETE: `${PATH_TO_LAMBDA_FUNCTIONS}/entry-delete`,
     ENTRY_READ_ALL: `${PATH_TO_LAMBDA_FUNCTIONS}/entry-read-all`,
     AUTH: `${PATH_TO_LAMBDA_FUNCTIONS}/auth`
 };

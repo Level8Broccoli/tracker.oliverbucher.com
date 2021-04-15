@@ -19,8 +19,8 @@ export const USER_ERROR_MESSAGES = {
     FORMAT: {
         NAME:
             'Der gewählte Name liegt im falschen Format vor. Verwende nur Buchstaben von A bis Z, Ziffern und Trennstriche.',
-        SECRET: 'Das Geheimwort ist nicht korrekt.'
+        SECRET: 'Die Geheimwörter sind nicht korrekt.'
     },
-    AUTH_FAILED: 'Das Geheimwort ist nicht korrekt.',
+    AUTH_FAILED: 'Die Geheimwörter sind nicht korrekt.',
     GENERAL: 'Leider ist ein Fehler aufgetreten. Bitte melde dich beim Administrator.'
 };

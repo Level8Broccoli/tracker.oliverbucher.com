@@ -30,8 +30,8 @@ export async function handler({ path, body, httpMethod }) {
 
     if (!secretIsValid(secret)) {
         return ok({
-            data: { msg: `Geheimwort '${secret}' ist nicht valide.` },
-            code: INTERNAL_CODES.PROPERTY.SECRET
+          data: { msg: `Geheimwörter '${secret}' ist nicht valide.` },
+          code: INTERNAL_CODES.PROPERTY.SECRET,
         });
     }
 
