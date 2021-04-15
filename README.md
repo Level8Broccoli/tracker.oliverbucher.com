@@ -7,8 +7,7 @@
 Install dependencies:
 
 ```sh
-$ cd backend yarn
-$ cd frontend yarn
+$ yarn --cwd backend && yarn --cwd frontend
 ```
 
 Serve lambda function locally:
