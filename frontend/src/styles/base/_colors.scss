@@ -1,0 +1,6 @@
+@use '../vars/colors' as clr;
+
+body {
+    background-color: clr.$black;
+    color: clr.$white;
+}

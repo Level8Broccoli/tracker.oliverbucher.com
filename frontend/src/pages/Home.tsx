@@ -27,7 +27,7 @@ export default function Home(): JSX.Element {
     };
 
     return (
-        <main>
+        <section>
             <h1>
                 <a href="/">TRKR</a>
             </h1>
@@ -45,6 +45,6 @@ export default function Home(): JSX.Element {
                 />
                 <button type="submit">Erstellen</button>
             </form>
-        </main>
+        </section>
     );
 }

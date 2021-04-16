@@ -1,0 +1,23 @@
+@use "../vars/fonts" as fonts;
+
+:root {
+    font-size: calc(1rem + 0.5vw);
+}
+
+body {
+    font-family: fonts.$family;
+}
+
+* {
+    max-width: 60ch;
+}
+
+html,
+body,
+div,
+header,
+nav,
+main,
+footer {
+    max-width: none;
+}

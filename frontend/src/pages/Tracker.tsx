@@ -7,6 +7,7 @@ import { entryReadMore } from '../api/entryReadMore';
 import { entryCreate } from '../api/entryCreate';
 import { trackerDelete } from '../api/trackerDelete';
 import { entryDelete } from '../api/entryDelete';
+import Sidebar from '../components/Sidebar';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
@@ -119,7 +120,8 @@ export default function Tracker(): JSX.Element {
     }
 
     return (
-        <main>
+        <section>
+            <Sidebar />
             <h1>
                 <a href="/">TRKR</a>
             </h1>
@@ -159,6 +161,6 @@ export default function Tracker(): JSX.Element {
             </ul>
             {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
             {createdDate?.toISO() || ' notSet'}
-        </main>
+        </section>
     );
 }

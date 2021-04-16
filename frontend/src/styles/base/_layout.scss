@@ -1,0 +1,5 @@
+@use "../vars/spacing" as s;
+
+header, main, footer {
+    padding: s.$s-2 s.$s0;
+}
