@@ -70,6 +70,6 @@ export const getMoreEntries = async (name, afterId) => {
   const count = await db.query(Count(Documents(Collection(Casefold(name)))));
 
   const dataWithRefId = data.map(({ data, ref }) => ({ ...data, ref: ref.id }));
-  const next = after?.[0]?.id || undefined;
+  const next = after?.[after.length - 1]?.id || undefined;
   return { data: dataWithRefId, next, count };
 };
