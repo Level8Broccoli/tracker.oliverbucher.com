@@ -12,6 +12,7 @@ import {
   Match,
   Paginate,
   Ref,
+  Select,
 } from "faunadb";
 import { SIZE_OF_ENTRY_PAGE, SORT_INDEX_SUFFIX } from "../utils/config";
 import { db } from "./db";
@@ -38,7 +39,7 @@ export const getAllEntries = async (name) => {
   const count = await db.query(Count(Documents(Collection(Casefold(name)))));
 
   const dataWithRefId = data.map(({ data, ref }) => ({ ...data, ref: ref.id }));
-  const next = after?.[0]?.id || undefined;
+  const next = after?.[after.length - 1]?.id || undefined;
   return { data: dataWithRefId, next, count };
 };
 
@@ -53,7 +54,13 @@ export const getMoreEntries = async (name, afterId) => {
   const { data, after } = await db.query(
     FaunaMap(
       Paginate(Match(Index(Casefold(name + SORT_INDEX_SUFFIX))), {
-        after: [Ref(Collection(Casefold(name)), afterId)],
+        after: [
+          Select(
+            ["data", "timestamp"],
+            Get(Ref(Collection(Casefold(name)), afterId))
+          ),
+          Ref(Collection(Casefold(name)), afterId),
+        ],
         size: SIZE_OF_ENTRY_PAGE,
       }),
       Lambda((_, ref) => Get(ref))
