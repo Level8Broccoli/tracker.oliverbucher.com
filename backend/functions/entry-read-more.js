@@ -1,4 +1,4 @@
-import { getAllEntries } from "./db/entries";
+import { getAllEntries, getMoreEntries } from "./db/entries";
 import { methods } from "./http/utils";
 import { INTERNAL_CODES } from "./utils/config";
 import {
@@ -14,8 +14,8 @@ export async function handler({ path, httpMethod }) {
     return methodNotAllowed();
   }
 
-  const [name] = path.split("/").slice(-1);
-  if (typeof name !== "string") {
+  const [name, next] = path.split("/").slice(-2);
+  if (typeof name !== "string" || typeof next !== "string") {
     return badRequest();
   }
 
@@ -27,7 +27,7 @@ export async function handler({ path, httpMethod }) {
   }
 
   try {
-    const data = await getAllEntries(name);
+    const data = await getMoreEntries(name, next);
 
     return ok({
       data,

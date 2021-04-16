@@ -1,6 +1,7 @@
 import {
   Casefold,
   Collection,
+  Count,
   Create,
   Delete,
   Documents,
@@ -22,13 +23,18 @@ export const addEntry = async (name, timestamp, type) => {
 };
 
 export const getAllEntries = async (name) => {
-  const { data } = await db.query(
+  const { data, after } = await db.query(
     FaunaMap(
       Paginate(Documents(Collection(Casefold(name)))),
       Lambda((doc) => Get(doc))
     )
   );
-  return data.map(({ data, ref }) => ({ ...data, ref: ref.id }));
+
+  const count = await db.query(Count(Documents(Collection(Casefold(name)))));
+
+  const dataWithRefId = data.map(({ data, ref }) => ({ ...data, ref: ref.id }));
+  const next = after?.[0]?.id || undefined;
+  return { data: dataWithRefId, next, count };
 };
 
 export const deleteEntry = async (name, id) => {
@@ -36,4 +42,21 @@ export const deleteEntry = async (name, id) => {
     Delete(Ref(Collection(Casefold(name)), id))
   );
   return { ...data, ref: ref.id };
+};
+
+export const getMoreEntries = async (name, afterId) => {
+  const { data, after } = await db.query(
+    FaunaMap(
+      Paginate(Documents(Collection(Casefold(name))), {
+        after: [Ref(Collection(Casefold(name)), afterId)],
+      }),
+      Lambda((doc) => Get(doc))
+    )
+  );
+
+  const count = await db.query(Count(Documents(Collection(Casefold(name)))));
+
+  const dataWithRefId = data.map(({ data, ref }) => ({ ...data, ref: ref.id }));
+  const next = after?.[0]?.id || undefined;
+  return { data: dataWithRefId, next, count };
 };

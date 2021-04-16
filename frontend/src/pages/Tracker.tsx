@@ -3,6 +3,7 @@ import PageNotFound from './PageNotFound';
 import { useParams } from 'react-router';
 import { entryModel } from '../models/models';
 import { entryReadAll } from '../api/entryReadAll';
+import { entryReadMore } from '../api/entryReadMore';
 import { entryCreate } from '../api/entryCreate';
 import { trackerDelete } from '../api/trackerDelete';
 import { entryDelete } from '../api/entryDelete';
@@ -17,23 +18,29 @@ export default function Tracker(): JSX.Element {
     const [loading, setLoading] = useState(true);
     const [authenticated, setAuthenticated] = useState(false);
     const [secret, setSecret] = useState('');
+    const [nextId, setNextId] = useState<number>();
+    const [count, setCount] = useState(0);
     const history = useHistory();
 
     useEffect(() => {
         (async () => {
             if (typeof name === 'string') {
-                const data = await entryReadAll(name);
-
-                setLoading(false);
-                if (typeof data !== 'string' && typeof data !== 'undefined') {
-                    setEntries(data);
-                }
-
                 const secret = getSecret(name);
                 if (typeof secret === 'string') {
                     const isAuthenticated = await auth(name, secret);
                     setAuthenticated(isAuthenticated);
                 }
+
+                const res = await entryReadAll(name);
+                setLoading(false);
+
+                if (typeof res === 'undefined' || typeof res === 'string') {
+                    return;
+                }
+                const { data, count, next } = res;
+                setEntries(data);
+                setCount(count);
+                setNextId(next);
             }
         })();
     }, [name]);
@@ -47,6 +54,7 @@ export default function Tracker(): JSX.Element {
                 setEntries((prev) => {
                     return [...prev, data];
                 });
+                setCount((prev) => prev + 1);
             }
         }
     };
@@ -70,6 +78,7 @@ export default function Tracker(): JSX.Element {
                     newList.splice(index, 1);
                     return newList;
                 });
+                setCount((prev) => prev - 1);
             }
         }
     };
@@ -87,13 +96,30 @@ export default function Tracker(): JSX.Element {
         setAuthenticated(false);
     };
 
+    const loadMoreAfter = async () => {
+        if (typeof nextId !== 'undefined') {
+            const res = await entryReadMore(name, nextId);
+            if (typeof res === 'undefined' || typeof res === 'string') {
+                return;
+            }
+            const { data, count, next } = res;
+            setEntries((prevData) => {
+                return [...prevData, ...data];
+            });
+            setCount(count);
+            setNextId(next);
+        }
+    };
+
     if (!loading && entries.length === 0) {
-        return <PageNotFound></PageNotFound>;
+        return <PageNotFound />;
     }
 
     return (
         <main>
-            <p>Name: {name}</p>
+            <p>
+                Name: {name} (Anzahl Einträge: {count})
+            </p>
             <button onClick={createEntry}>+</button>
             <button onClick={deleteTracker}>Löschen</button>
             {authenticated ? (
@@ -125,6 +151,7 @@ export default function Tracker(): JSX.Element {
                     </li>
                 ))}
             </ul>
+            {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
         </main>
     );
 }

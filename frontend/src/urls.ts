@@ -13,5 +13,6 @@ export const ENTRY_POINT = {
     ENTRY_CREATE: `${PATH_TO_LAMBDA_FUNCTIONS}/entry-create`,
     ENTRY_DELETE: `${PATH_TO_LAMBDA_FUNCTIONS}/entry-delete`,
     ENTRY_READ_ALL: `${PATH_TO_LAMBDA_FUNCTIONS}/entry-read-all`,
+    ENTRY_READ_MORE: `${PATH_TO_LAMBDA_FUNCTIONS}/entry-read-more`,
     AUTH: `${PATH_TO_LAMBDA_FUNCTIONS}/auth`
 };

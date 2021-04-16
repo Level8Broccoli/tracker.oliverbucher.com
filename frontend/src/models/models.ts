@@ -13,7 +13,13 @@ export interface entryCreateModel {
     code: number;
 }
 
+export interface listOfEntries {
+    data: entryModel[];
+    count: number;
+    next?: number;
+}
+
 export interface entryReadAllModel {
-    data: { data: entryModel[] };
+    data: listOfEntries;
     code: number;
 }

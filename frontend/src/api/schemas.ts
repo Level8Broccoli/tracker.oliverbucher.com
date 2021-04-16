@@ -38,6 +38,10 @@ export interface entryCreateAPI {
 }
 
 export interface entryReadAllAPI {
-    data: { data: entryAPI[] };
+    data: {
+        data: entryAPI[];
+        count: number;
+        next?: number;
+    };
     code: number;
 }
