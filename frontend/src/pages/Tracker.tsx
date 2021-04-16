@@ -127,7 +127,7 @@ export default function Tracker(): JSX.Element {
                 Name: {name} (Anzahl Einträge: {count})
             </p>
             <button onClick={createEntry}>+</button>
-            <button onClick={deleteTracker}>Löschen</button>
+            {authenticated && <button onClick={deleteTracker}>Löschen</button>}
             {authenticated ? (
                 <div>
                     <h2>Online</h2>
