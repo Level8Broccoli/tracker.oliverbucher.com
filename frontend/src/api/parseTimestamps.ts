@@ -13,7 +13,12 @@ export const parseTimestamps = ({
         }));
 
         return {
-            data: { data: parsedList, count: data.count, next: data.next },
+            data: {
+                data: parsedList,
+                count: data.count,
+                next: data.next,
+                created: DateTime.fromISO(data.created)
+            },
             code
         };
     }

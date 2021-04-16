@@ -17,6 +17,7 @@ export interface listOfEntries {
     data: entryModel[];
     count: number;
     next?: number;
+    created: DateTime;
 }
 
 export interface entryReadAllModel {

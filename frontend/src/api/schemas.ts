@@ -42,6 +42,7 @@ export interface entryReadAllAPI {
         data: entryAPI[];
         count: number;
         next?: number;
+        created: string;
     };
     code: number;
 }

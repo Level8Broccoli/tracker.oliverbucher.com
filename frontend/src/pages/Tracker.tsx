@@ -11,6 +11,7 @@ import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
 import { useHistory } from 'react-router-dom';
+import { DateTime } from 'luxon';
 
 export default function Tracker(): JSX.Element {
     const { name } = useParams<{ name: string }>();
@@ -20,6 +21,7 @@ export default function Tracker(): JSX.Element {
     const [secret, setSecret] = useState('');
     const [nextId, setNextId] = useState<number>();
     const [count, setCount] = useState(0);
+    const [createdDate, setCreatedDate] = useState<DateTime>();
     const history = useHistory();
 
     useEffect(() => {
@@ -37,10 +39,11 @@ export default function Tracker(): JSX.Element {
                 if (typeof res === 'undefined' || typeof res === 'string') {
                     return;
                 }
-                const { data, count, next } = res;
+                const { data, count, next, created } = res;
                 setEntries(data);
                 setCount(count);
                 setNextId(next);
+                setCreatedDate(created);
             }
         })();
     }, [name]);
@@ -155,6 +158,7 @@ export default function Tracker(): JSX.Element {
                 ))}
             </ul>
             {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
+            {createdDate?.toISO() || ' notSet'}
         </main>
     );
 }

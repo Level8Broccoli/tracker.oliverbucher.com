@@ -14,7 +14,11 @@ import {
   Ref,
   Select,
 } from "faunadb";
-import { SIZE_OF_ENTRY_PAGE, SORT_INDEX_SUFFIX } from "../utils/config";
+import {
+  ALL_TRACKERS_INDEX,
+  SIZE_OF_ENTRY_PAGE,
+  SORT_INDEX_SUFFIX,
+} from "../utils/config";
 import { db } from "./db";
 
 export const addEntry = async (name, timestamp, type) => {
@@ -38,9 +42,18 @@ export const getAllEntries = async (name) => {
 
   const count = await db.query(Count(Documents(Collection(Casefold(name)))));
 
+  const config = await db.query(
+    Get(Match(Index(ALL_TRACKERS_INDEX), Casefold(name)))
+  );
+
   const dataWithRefId = data.map(({ data, ref }) => ({ ...data, ref: ref.id }));
   const next = after?.[after.length - 1]?.id || undefined;
-  return { data: dataWithRefId, next, count };
+  return {
+    data: dataWithRefId,
+    next,
+    count,
+    created: config.data.timestamp,
+  };
 };
 
 export const deleteEntry = async (name, id) => {
