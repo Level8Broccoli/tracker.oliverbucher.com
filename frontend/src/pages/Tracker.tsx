@@ -117,6 +117,9 @@ export default function Tracker(): JSX.Element {
 
     return (
         <main>
+            <h1>
+                <a href="/">TRKR</a>
+            </h1>
             <p>
                 Name: {name} (Anzahl Einträge: {count})
             </p>
