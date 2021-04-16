@@ -56,7 +56,7 @@ export default function Tracker(): JSX.Element {
 
             if (typeof data !== 'string') {
                 setEntries((prev) => {
-                    return [...prev, data];
+                    return [data, ...prev];
                 });
                 setCount((prev) => prev + 1);
             }
