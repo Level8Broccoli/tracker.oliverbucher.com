@@ -11,7 +11,7 @@ export const createConfigCollectionIfNotExists = async () => {
         return `Collection "${CONFIGS_COLLECTION}" already exists.`;
     }
 
-    const { ref: source } = await db.query(CreateCollection({ CONFIGS_COLLECTION }));
+    const { ref: source } = await db.query(CreateCollection({ name: CONFIGS_COLLECTION }));
 
     await db.query(
         CreateIndex({
