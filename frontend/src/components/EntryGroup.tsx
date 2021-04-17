@@ -18,17 +18,20 @@ export default function EntryGroup({
     CREATE_REF
 }: Prop): JSX.Element {
     return (
-        <ul className="EntryGroup">
-            {group.map((entry, i) => (
-                <Entry
-                    key={i}
-                    CREATE_REF={CREATE_REF}
-                    loggedIn={loggedIn}
-                    deleteEntry={deleteEntry}
-                    createEntry={createEntry}
-                    entry={entry}
-                />
-            ))}
-        </ul>
+        <>
+            <ul className="EntryGroup">
+                {group.map((entry, i) => (
+                    <Entry
+                        key={i}
+                        CREATE_REF={CREATE_REF}
+                        loggedIn={loggedIn}
+                        deleteEntry={deleteEntry}
+                        createEntry={createEntry}
+                        entry={entry}
+                    />
+                ))}
+            </ul>
+            <hr />
+        </>
     );
 }

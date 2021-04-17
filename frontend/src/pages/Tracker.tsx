@@ -9,6 +9,7 @@ import LoggedIn from '../components/LoggedIn';
 import LoggedOut from '../components/LoggedOut';
 import Sidebar from '../components/Sidebar';
 import TrackerFooter from '../components/TrackerFooter';
+import Stack from '../layout/Stack';
 import WithSidebar from '../layout/WithSidebar';
 import { entryModel } from '../models/models';
 import { getSecret } from '../utils/storage';
@@ -93,28 +94,23 @@ export default function Tracker(): JSX.Element {
                 </Sidebar>
             }
             main={
-                <>
+                <Stack>
                     <EntriesDisplay
                         name={name}
                         setEntries={setEntries}
                         setCount={setCount}
                         entries={entries}
                         loggedIn={loggedIn}
+                        nextId={nextId}
+                        loadMoreAfter={loadMoreAfter}
                     />
-                    {nextId && (
-                        <button className="small" onClick={loadMoreAfter}>
-                            lade ältere Einträge
-                            <i className="fad fa-angle-double-right"></i>
-                        </button>
-                    )}
-                    <hr />
                     <TrackerFooter
                         name={name}
                         createdDate={createdDate}
                         countDisplay={entries.length}
                         countTotal={count}
                     />
-                </>
+                </Stack>
             }
         />
     );

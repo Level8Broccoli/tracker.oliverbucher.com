@@ -12,6 +12,8 @@ type Props = {
     setEntries: Dispatch<SetStateAction<entryModel[]>>;
     setCount: Dispatch<SetStateAction<number>>;
     loggedIn: boolean;
+    nextId?: number;
+    loadMoreAfter: () => void;
 };
 
 export default function EntriesDisplay({
@@ -19,7 +21,9 @@ export default function EntriesDisplay({
     entries,
     setEntries,
     setCount,
-    loggedIn
+    loggedIn,
+    nextId,
+    loadMoreAfter
 }: Props): JSX.Element {
     const [entriesByGroup, setEntriesByGroup] = useState<entryModel[][]>();
 
@@ -102,6 +106,12 @@ export default function EntriesDisplay({
                     group={group}
                 />
             ))}
+            {nextId && (
+                <button className="small" onClick={loadMoreAfter}>
+                    lade ältere Einträge
+                    <i className="fad fa-angle-double-right"></i>
+                </button>
+            )}
         </div>
     );
 }
