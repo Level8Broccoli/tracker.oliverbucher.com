@@ -3,8 +3,9 @@ import React from 'react';
 export default function Header(): JSX.Element {
     return (
         <header>
-            <i className="fas fa-acorn"></i>
-            <a href="/">TRKR</a>
+            <a href="/">
+                <i className="fad fa-badge-check"></i> TRKR
+            </a>
         </header>
     );
 }
