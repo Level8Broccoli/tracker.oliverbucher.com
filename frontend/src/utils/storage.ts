@@ -20,6 +20,19 @@ export const deleteSecret = (name: string): void => {
     window.localStorage.removeItem(name.toLocaleLowerCase());
 };
 
+export const setIsFirst = (name: string, first: boolean): void => {
+    const obj = window.localStorage.getItem(name.toLocaleLowerCase());
+    if (obj === null) {
+        return;
+    }
+    try {
+        const { secret } = JSON.parse(obj);
+        saveSecret(name, secret, first);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export const isFirst = (name: string): boolean => {
     const obj = window.localStorage.getItem(name.toLocaleLowerCase());
     if (obj === null) {

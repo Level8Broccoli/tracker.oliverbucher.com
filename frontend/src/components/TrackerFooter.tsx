@@ -18,7 +18,7 @@ export default function TrackerFooter({
         <footer className="TrackerFooter">
             {typeof createdDate !== 'undefined' ? (
                 <span>
-                    Tracker &lsquo;{name}&rsquo; wurde erstellt am{' '}
+                    TRKR «{name}» wurde erstellt am{' '}
                     {createdDate.setLocale('de').toFormat('dd. LLLL yyyy, H.mm')} Uhr{' '}
                 </span>
             ) : (

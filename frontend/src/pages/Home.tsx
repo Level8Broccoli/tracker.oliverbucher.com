@@ -17,7 +17,7 @@ export default function Home(): JSX.Element {
         if (error) {
             console.error(data);
         } else {
-            saveSecret(name, data);
+            saveSecret(name, data, true);
             history.push(`/${name}`);
         }
     };
@@ -25,7 +25,7 @@ export default function Home(): JSX.Element {
     return (
         <section>
             <Stack>
-                <h2>Erstelle deinen eigenen Tracker</h2>
+                <h2>Erstelle deinen eigenen TRKR</h2>
                 <form onSubmit={submitNewTracker}>
                     <div className="addon">
                         <label htmlFor="name" className="prefix">

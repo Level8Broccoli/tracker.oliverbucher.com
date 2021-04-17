@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { trackerDelete } from '../api/trackerDelete';
-import { deleteSecret, getSecret } from '../utils/storage';
+import { deleteSecret, getSecret, isFirst, setIsFirst } from '../utils/storage';
 import Cluster from '../layout/Cluster';
 import Stack from '../layout/Stack';
+import Toast from '../components/Toast';
 
 type Props = {
     name: string;
@@ -15,6 +16,11 @@ type Props = {
 export default function LoggedIn({ name, secret, setSecret, logout }: Props): JSX.Element {
     const history = useHistory();
     const [showSecret, setShowSecret] = useState(false);
+    const [isFirstTime, setIsFirstTime] = useState(false);
+
+    useEffect(() => {
+        setIsFirstTime(isFirst(name));
+    }, [secret]);
 
     const deleteTracker = async () => {
         const secret = getSecret(name);
@@ -31,9 +37,37 @@ export default function LoggedIn({ name, secret, setSecret, logout }: Props): JS
         logout();
     };
 
+    const closeToast = () => {
+        setIsFirst(name, false);
+        setIsFirstTime(false);
+    };
+
     return (
         <Stack>
-            <h2>{name}</h2>
+            <div>
+                <h2>{name}</h2>
+                {isFirstTime && (
+                    <Toast closeToast={closeToast}>
+                        <p>Lesen dürfen alle deinen TRKR!</p>
+                        <p>
+                            Um neue Einträge hinzuzufügen, zu entfernen oder den gesamten TRKR
+                            unwiederruflich zu löschen, dazu benötigt man die passenden
+                            Geheimwörter.
+                        </p>
+                        <p>Die Geheimwörter werden in deinem Browser gespeichert.</p>
+                        <p>
+                            Willst du aber deinen TRKR auf einem anderen Gerät verwenden, meldest du
+                            dich ab oder hast du deinen Browser so eingestellt, dass regelmässig der
+                            Cache geleert wird, dann merke dir deine Geheimwörter, damit du auch
+                            später noch deinen TRKR benutzen kannst.
+                        </p>
+                        <p>
+                            Mit einem Klick auf «Geheimwörter anzeigen» unten, kannst du dir deine
+                            Geheimwörter anzeigen lassen.
+                        </p>
+                    </Toast>
+                )}
+            </div>
             <Cluster>
                 <div>
                     <button onClick={handleLogout} className="small">
@@ -42,7 +76,7 @@ export default function LoggedIn({ name, secret, setSecret, logout }: Props): JS
                 </div>
                 <div>
                     <button onClick={deleteTracker} className="small">
-                        <i className="fad fa-trash-alt"></i> Tracker Löschen
+                        <i className="fad fa-trash-alt"></i> deinen TRKR löschen
                     </button>
                 </div>
             </Cluster>

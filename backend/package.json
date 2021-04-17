@@ -1,7 +1,7 @@
 {
 	"name": "api.trkr.lvl8.io",
 	"version": "0.1.0",
-	"repository": "git@github.com:Level8Broccoli/tracker.oliverbucher.com.git",
+	"repository": "git@github.com:Level8Broccoli/trkr.lvl8.io.git",
 	"author": "Oliver Bucher <7040739+Level8Broccoli@users.noreply.github.com>",
 	"private": true,
 	"scripts": {
