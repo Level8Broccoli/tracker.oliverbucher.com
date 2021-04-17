@@ -4,6 +4,7 @@ import { entryCreate } from '../api/entryCreate';
 import { entryDelete } from '../api/entryDelete';
 import { entryModel } from '../models/models';
 import { getSecret } from '../utils/storage';
+import EntryGroup from '../components/EntryGroup';
 
 type Props = {
     name: string;
@@ -92,29 +93,14 @@ export default function EntriesDisplay({
     return (
         <div>
             {entriesByGroup.map((group, i) => (
-                <ul key={i}>
-                    {group.map((entry) => {
-                        if (entry.ref === CREATE_REF) {
-                            return (
-                                <li key={entry.ref}>
-                                    <button onClick={createEntry}>+</button>
-                                </li>
-                            );
-                        } else {
-                            return (
-                                <li key={entry.ref}>
-                                    {entry.timestamp
-                                        .setLocale('de')
-                                        .toFormat('dd. LLLL yyyy, H.mm')}{' '}
-                                    Uhr {entry.ref}{' '}
-                                    {loggedIn && (
-                                        <button onClick={() => deleteEntry(entry.ref)}>x</button>
-                                    )}{' '}
-                                </li>
-                            );
-                        }
-                    })}
-                </ul>
+                <EntryGroup
+                    key={i}
+                    CREATE_REF={CREATE_REF}
+                    loggedIn={loggedIn}
+                    deleteEntry={deleteEntry}
+                    createEntry={createEntry}
+                    group={group}
+                />
             ))}
         </div>
     );
