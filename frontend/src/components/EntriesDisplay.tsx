@@ -22,15 +22,17 @@ export default function EntriesDisplay({
 }: Props): JSX.Element {
     const [entriesByGroup, setEntriesByGroup] = useState<entryModel[][]>();
 
+    const MAX_PAUSE_LENGTH_IN_HOURS = 1;
+    const CREATE_REF = -1;
+
     useEffect(() => {
         const buttonNewEntry = [];
 
         if (loggedIn) {
-            buttonNewEntry.push({ timestamp: DateTime.now(), ref: -1 });
+            buttonNewEntry.push({ timestamp: DateTime.now(), ref: CREATE_REF });
         }
         const allEntries = [...buttonNewEntry, ...entries];
 
-        const MAX_PAUSE_LENGTH_IN_HOURS = 1;
         let lastElement: null | entryModel = null;
         let currentGroup: entryModel[] = [];
         const byGroup: entryModel[][] = [];
@@ -53,13 +55,14 @@ export default function EntriesDisplay({
         setEntriesByGroup(byGroup);
     }, [entries, loggedIn]);
 
-    const deleteEntry = async (index: number, id: number) => {
+    const deleteEntry = async (id: number) => {
         const secret = getSecret(name);
         if (typeof secret === 'string' && typeof name === 'string') {
             const success = await entryDelete(name, secret, id);
             if (success) {
                 setEntries((prevList) => {
                     const newList = [...prevList];
+                    const index = prevList.findIndex((e) => e.ref === id);
                     newList.splice(index, 1);
                     return newList;
                 });
@@ -90,15 +93,27 @@ export default function EntriesDisplay({
         <div>
             {entriesByGroup.map((group, i) => (
                 <ul key={i}>
-                    {group.map((entry) => (
-                        <li key={entry.ref}>
-                            {entry.timestamp.setLocale('de').toFormat('dd. LLLL yyyy, H.mm')} Uhr{' '}
-                            {entry.ref}{' '}
-                            {loggedIn && (
-                                <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
-                            )}{' '}
-                        </li>
-                    ))}
+                    {group.map((entry) => {
+                        if (entry.ref === CREATE_REF) {
+                            return (
+                                <li key={entry.ref}>
+                                    <button onClick={createEntry}>+</button>
+                                </li>
+                            );
+                        } else {
+                            return (
+                                <li key={entry.ref}>
+                                    {entry.timestamp
+                                        .setLocale('de')
+                                        .toFormat('dd. LLLL yyyy, H.mm')}{' '}
+                                    Uhr {entry.ref}{' '}
+                                    {loggedIn && (
+                                        <button onClick={() => deleteEntry(entry.ref)}>x</button>
+                                    )}{' '}
+                                </li>
+                            );
+                        }
+                    })}
                 </ul>
             ))}
         </div>
