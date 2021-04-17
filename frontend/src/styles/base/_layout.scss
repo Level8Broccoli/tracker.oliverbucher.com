@@ -43,11 +43,11 @@ $gap: s.$s0;
         max-width: none;
     }
 
-    aside {
+    .sidebar {
         flex-basis: 30ch;
     }
 
-    section {
+    .not-sidebar {
         flex-basis: 0;
         flex-grow: 999;
         min-width: calc(50% - #{$gap});

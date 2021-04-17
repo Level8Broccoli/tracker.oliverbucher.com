@@ -13,6 +13,7 @@ import { SECRET_RULE } from '../config';
 import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
 import { useHistory } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import Sidebar from '../components/Sidebar';
 
 export default function Tracker(): JSX.Element {
     const { name } = useParams<{ name: string }>();
@@ -122,37 +123,39 @@ export default function Tracker(): JSX.Element {
     return (
         <WithSidebar
             sidebar={
-                <>
-                    <p>
-                        Name: {name} (Anzahl Einträge: {count})
-                    </p>
-                    <button onClick={createEntry}>+</button>
-                    {authenticated && <button onClick={deleteTracker}>Löschen</button>}
-                    {authenticated ? (
-                        <div>
-                            <h2>Online</h2>
-                            <form onSubmit={logout}>
-                                <button type="submit">Abmelden</button>
+                <Sidebar>
+                    <>
+                        <p>
+                            Name: {name} (Anzahl Einträge: {count})
+                        </p>
+                        {authenticated && <button onClick={deleteTracker}>Löschen</button>}
+                        {authenticated ? (
+                            <div>
+                                <h2>Online</h2>
+                                <form onSubmit={logout}>
+                                    <button type="submit">Abmelden</button>
+                                </form>
+                            </div>
+                        ) : (
+                            <form onSubmit={authenticate}>
+                                <label htmlFor="secret">Geheimwörter</label>
+                                <input
+                                    id="secret"
+                                    type="text"
+                                    placeholder="deine Geheimwörter"
+                                    pattern={SECRET_RULE.toString().slice(1, -1)}
+                                    value={secret}
+                                    onChange={(e) => setSecret(e.target.value)}
+                                />
+                                <button type="submit">Anmelden</button>
                             </form>
-                        </div>
-                    ) : (
-                        <form onSubmit={authenticate}>
-                            <label htmlFor="secret">Geheimwörter</label>
-                            <input
-                                id="secret"
-                                type="text"
-                                placeholder="deine Geheimwörter"
-                                pattern={SECRET_RULE.toString().slice(1, -1)}
-                                value={secret}
-                                onChange={(e) => setSecret(e.target.value)}
-                            />
-                            <button type="submit">Anmelden</button>
-                        </form>
-                    )}
-                </>
+                        )}
+                    </>
+                </Sidebar>
             }
             main={
                 <>
+                    <button onClick={createEntry}>+</button>
                     <ul>
                         {entries.map((entry, i) => (
                             <li key={entry.ref}>
