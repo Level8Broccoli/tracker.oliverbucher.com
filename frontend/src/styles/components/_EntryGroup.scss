@@ -1,4 +1,28 @@
+@use "../vars/spacing" as s;
+@use "../vars/colors" as clr;
+@use "../vars/fonts" as f;
+
 .EntryGroup {
     list-style-type: none;
     padding: 0;
+    display: flex;
+    gap: s.$s0;
+
+    li > * {
+        height: s.$s3;
+        width: s.$s3;
+        background-color: clr.$midnight;
+        border-radius: s.$s-4;
+    }
+
+    li > div {
+        font-size: f.$f-2;
+        padding: s.$s-3;
+        color: transparent;
+
+        &:hover {
+            color: clr.$white;
+        }
+    }
+
 }
