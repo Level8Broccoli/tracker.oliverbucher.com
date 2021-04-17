@@ -29,8 +29,10 @@ export default function Entry({
     return (
         <li key={entry.ref}>
             <div>
-                {entry.timestamp.setLocale('de').toFormat('dd. LLLL yyyy, H.mm')} Uhr {' '}
-                {loggedIn && <button onClick={() => deleteEntry(entry.ref)}>x</button>}{' '}
+                <p>
+                    {entry.timestamp.setLocale('de').toFormat('ccc, d.L.yy, H.mm')}&nbsp;Uhr{' '}
+                    {loggedIn && <button onClick={() => deleteEntry(entry.ref)}>x</button>}
+                </p>
             </div>
         </li>
     );

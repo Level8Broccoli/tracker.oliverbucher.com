@@ -6,6 +6,7 @@
     list-style-type: none;
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
     gap: s.$s0;
 
     li > * {
@@ -16,13 +17,15 @@
     }
 
     li > div {
-        font-size: f.$f-2;
-        padding: s.$s-3;
-        color: transparent;
+        > p {
+            font-size: f.$f-2;
+            padding: s.$s-3;
+            opacity: 0;
+            transition: opacity 50ms ease-in-out;
+        }
 
-        &:hover {
-            color: clr.$white;
+        &:hover > p {
+            opacity: 1;
         }
     }
-
 }
