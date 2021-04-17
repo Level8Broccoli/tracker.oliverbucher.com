@@ -1,8 +1,8 @@
-@use "../vars/colors" as clr;
+@use "../vars/colors" as c;
 @use "../vars/spacing" as s;
 
 .Sidebar {
-    background-color: clr.$dark-gray;
+    background-color: c.$dark-gray;
     border-radius: s.$s-4;
     padding: s.$s-3 s.$s0 s.$s0;
 }

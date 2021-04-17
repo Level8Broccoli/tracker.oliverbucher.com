@@ -1,5 +1,5 @@
 @use "../vars/spacing" as s;
-@use "../vars/colors" as clr;
+@use "../vars/colors" as c;
 @use "../vars/fonts" as f;
 
 .EntryGroup {
@@ -10,22 +10,33 @@
     gap: s.$s0;
 
     li > * {
-        height: s.$s3;
-        width: s.$s3;
-        background-color: clr.$midnight;
+        height: s.$s5;
+        width: s.$s5;
+        background-color: c.$midnight;
         border-radius: s.$s-4;
     }
 
     li > div {
         > p {
-            font-size: f.$f-2;
-            padding: s.$s-3;
+            font-size: f.$f-1;
+            padding: s.$s-1;
             opacity: 0;
+            color: c.$light-gray;
             transition: opacity 50ms ease-in-out;
         }
 
         &:hover > p {
             opacity: 1;
+        }
+    }
+
+    .create-entry {
+        background-color: transparent;
+        border: s.$s-5 dashed c.$light-gray;
+
+        &:hover {
+            color: c.$primary;
+            border-color: c.$primary;
         }
     }
 }

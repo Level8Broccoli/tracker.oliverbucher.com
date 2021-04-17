@@ -1,5 +1,5 @@
 @use "../vars/spacing" as s;
-@use "../vars/colors" as clr;
+@use "../vars/colors" as c;
 
 html,
 body {
@@ -31,5 +31,5 @@ footer {
 hr {
     border: none;
     height: s.$s-5;
-    background: radial-gradient(ellipse at left, clr.$gr-midnight-start, clr.$gr-midnight-end 75%);
+    background: radial-gradient(ellipse at left, c.$gr-midnight-start, c.$gr-midnight-end 75%);
 }

@@ -1,9 +1,9 @@
 @use "../vars/spacing" as s;
 @use "../vars/fonts" as f;
-@use "../vars/colors" as clr;
+@use "../vars/colors" as c;
 
 .TrackerFooter {
     font-size: f.$f-1;
-    color: clr.$midnight;
+    color: c.$midnight;
     padding: 0;
 }

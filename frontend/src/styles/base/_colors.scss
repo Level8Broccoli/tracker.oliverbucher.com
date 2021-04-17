@@ -1,12 +1,12 @@
-@use '../vars/colors' as clr;
+@use '../vars/colors' as c;
 
 body {
-    background-color: clr.$black;
-    color: clr.$white;
+    background-color: c.$black;
+    color: c.$white;
 }
 
 a {
-    color: clr.$primary;
+    color: c.$primary;
     text-decoration: none;
 
     &:hover {

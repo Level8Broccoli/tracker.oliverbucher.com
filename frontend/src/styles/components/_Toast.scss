@@ -1,11 +1,11 @@
-@use '../vars/colors' as clr;
+@use '../vars/colors' as c;
 @use '../vars/spacing' as s;
 @use '../vars/fonts' as f;
 
 .Toast {
     position: relative;
-    background-color: clr.$success;
-    color: clr.$black;
+    background-color: c.$success;
+    color: c.$black;
     padding: s.$s-2 s.$s-1;
     font-size: f.$f-1;
     border-radius: s.$s-4;
@@ -16,7 +16,7 @@
 
     .delete {
         position: absolute;
-        color: clr.$dark-gray;
+        color: c.$dark-gray;
         top: s.$s-4;
         right: 0;
         border: none;
@@ -24,7 +24,7 @@
 
         &:hover {
             background-color: transparent;
-            color: clr.$error;
+            color: c.$error;
         }
     }
 }

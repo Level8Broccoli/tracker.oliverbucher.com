@@ -1,19 +1,19 @@
-@use '../vars/colors' as clr;
+@use '../vars/colors' as c;
 @use '../vars/spacing' as s;
 @use '../vars/fonts' as f;
 
 button {
-    background-color: clr.$gray;
+    background-color: c.$gray;
     border-color: transparent;
-    color: clr.$white;
+    color: c.$white;
     border-radius: s.$s-4;
     padding: s.$s-4 s.$s-1;
     cursor: pointer;
     white-space: nowrap;
 
     &:hover {
-        background-color: clr.$primary;
-        color: clr.$dark-gray;
+        background-color: c.$primary;
+        color: c.$dark-gray;
     }
 
     > i {
@@ -41,7 +41,7 @@ input {
     }
 
     &:disabled {
-        color: clr.$gray;
+        color: c.$gray;
     }
 }
 

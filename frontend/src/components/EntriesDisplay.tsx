@@ -27,7 +27,7 @@ export default function EntriesDisplay({
 }: Props): JSX.Element {
     const [entriesByGroup, setEntriesByGroup] = useState<entryModel[][]>();
 
-    const MAX_PAUSE_LENGTH_IN_HOURS = 1;
+    const MAX_PAUSE_LENGTH_IN_HOURS = 30;
     const CREATE_REF = -1;
 
     useEffect(() => {
