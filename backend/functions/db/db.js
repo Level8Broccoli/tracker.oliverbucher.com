@@ -1,4 +1,4 @@
-import { Client, Collection, CreateCollection, CreateIndex, Exists, Time } from 'faunadb';
+import { Client, Collection, CreateCollection, CreateIndex, Exists } from 'faunadb';
 import { ALL_TRACKERS_INDEX, ALL_TRACKER_NAMES_INDEX, CONFIGS_COLLECTION } from '../utils/config';
 
 export const db = new Client({
