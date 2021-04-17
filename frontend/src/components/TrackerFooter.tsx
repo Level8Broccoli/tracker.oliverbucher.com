@@ -2,12 +2,14 @@ import React from 'react';
 import { DateTime } from 'luxon';
 
 type Prop = {
+    name: string;
     createdDate?: DateTime;
     countDisplay: number;
     countTotal: number;
 };
 
 export default function TrackerFooter({
+    name,
     createdDate,
     countDisplay,
     countTotal
@@ -16,13 +18,13 @@ export default function TrackerFooter({
         <footer className="TrackerFooter">
             {typeof createdDate !== 'undefined' ? (
                 <span>
-                    Tracker wurde erstellt am{' '}
+                    Tracker &lsquo;{name}&rsquo; wurde erstellt am{' '}
                     {createdDate.setLocale('de').toFormat('dd. LLLL yyyy, H.mm')} Uhr{' '}
                 </span>
             ) : (
                 ''
             )}
-            | {countDisplay} / {countTotal}
+            | angezeigte Einträge {countDisplay} / {countTotal}
         </footer>
     );
 }

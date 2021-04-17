@@ -13,6 +13,7 @@ button {
 
     &:hover {
         background-color: clr.$primary;
+        color: clr.$dark-gray;
     }
 
     > i {

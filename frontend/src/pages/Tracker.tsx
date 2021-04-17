@@ -135,6 +135,7 @@ export default function Tracker(): JSX.Element {
                     </ul>
                     {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
                     <TrackerFooter
+                        name={name}
                         createdDate={createdDate}
                         countDisplay={entries.length}
                         countTotal={count}
