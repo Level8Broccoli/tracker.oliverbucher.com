@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { DateTime, Interval } from 'luxon';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { entryCreate } from '../api/entryCreate';
 import { entryDelete } from '../api/entryDelete';
 import { entryModel } from '../models/models';
@@ -19,6 +20,39 @@ export default function EntriesDisplay({
     setCount,
     loggedIn
 }: Props): JSX.Element {
+    const [entriesByGroup, setEntriesByGroup] = useState<entryModel[][]>();
+
+    useEffect(() => {
+        const buttonNewEntry = [];
+
+        if (loggedIn) {
+            buttonNewEntry.push({ timestamp: DateTime.now(), ref: -1 });
+        }
+        const allEntries = [...buttonNewEntry, ...entries];
+
+        const MAX_PAUSE_LENGTH_IN_HOURS = 1;
+        let lastElement: null | entryModel = null;
+        let currentGroup: entryModel[] = [];
+        const byGroup: entryModel[][] = [];
+
+        allEntries.forEach((entry) => {
+            if (lastElement !== null) {
+                const currentTS = entry.timestamp;
+                const lastTS = lastElement.timestamp;
+                const interval = Interval.fromDateTimes(currentTS, lastTS);
+
+                if (interval.length('hours') > MAX_PAUSE_LENGTH_IN_HOURS) {
+                    byGroup.push(currentGroup);
+                    currentGroup = [];
+                }
+            }
+            lastElement = entry;
+            currentGroup.push(entry);
+        });
+        byGroup.push(currentGroup);
+        setEntriesByGroup(byGroup);
+    }, [entries, loggedIn]);
+
     const deleteEntry = async (index: number, id: number) => {
         const secret = getSecret(name);
         if (typeof secret === 'string' && typeof name === 'string') {
@@ -48,19 +82,25 @@ export default function EntriesDisplay({
         }
     };
 
+    if (typeof entriesByGroup === 'undefined') {
+        return <div>Keine Einträge gefunden</div>;
+    }
+
     return (
-        <ul>
-            {loggedIn && (
-                <li>
-                    <button onClick={createEntry}>+</button>
-                </li>
-            )}
-            {entries.map((entry, i) => (
-                <li key={entry.ref}>
-                    {entry.timestamp.toLocaleString()}
-                    {loggedIn && <button onClick={() => deleteEntry(i, entry.ref)}>x</button>}
-                </li>
+        <div>
+            {entriesByGroup.map((group, i) => (
+                <ul key={i}>
+                    {group.map((entry) => (
+                        <li key={entry.ref}>
+                            {entry.timestamp.setLocale('de').toFormat('dd. LLLL yyyy, H.mm')} Uhr{' '}
+                            {entry.ref}{' '}
+                            {loggedIn && (
+                                <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
+                            )}{' '}
+                        </li>
+                    ))}
+                </ul>
             ))}
-        </ul>
+        </div>
     );
 }

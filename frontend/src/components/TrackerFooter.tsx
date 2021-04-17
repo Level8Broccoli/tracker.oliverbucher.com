@@ -18,13 +18,13 @@ export default function TrackerFooter({
         <footer className="TrackerFooter">
             {typeof createdDate !== 'undefined' ? (
                 <span>
-                    TRKR «{name}» wurde erstellt am{' '}
-                    {createdDate.setLocale('de').toFormat('dd. LLLL yyyy, H.mm')} Uhr{' '}
+                    TRKR «{name}» wurde am{' '}
+                    {createdDate.setLocale('de').toFormat('dd. LLLL yyyy, H.mm')} Uhr erstellt{' '}
                 </span>
             ) : (
                 ''
             )}
-            | angezeigte Einträge {countDisplay} / {countTotal}
+            | angezeigte Einträge {countDisplay} von {countTotal}
         </footer>
     );
 }
