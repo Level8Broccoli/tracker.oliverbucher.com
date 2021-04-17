@@ -156,7 +156,7 @@ export default function Tracker(): JSX.Element {
             }
             main={
                 <>
-                    <button onClick={createEntry}>+</button>
+                    {authenticated && <button onClick={createEntry}>+</button>}
                     <ul>
                         {entries.map((entry, i) => (
                             <li key={entry.ref}>
