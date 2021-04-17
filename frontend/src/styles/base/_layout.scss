@@ -26,30 +26,3 @@ main,
 footer {
     padding: s.$s-2 s.$s0;
 }
-
-// WithSidebar
-
-$gap: s.$s0;
-
-.with-sidebar {
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-    margin: ($gap / 2) * -1;
-
-    > * {
-        margin: ($gap / 2);
-        flex-grow: 1;
-        max-width: none;
-    }
-
-    .sidebar {
-        flex-basis: 35ch;
-    }
-
-    .not-sidebar {
-        flex-basis: 0;
-        flex-grow: 999;
-        min-width: calc(50% - #{$gap});
-    }
-}

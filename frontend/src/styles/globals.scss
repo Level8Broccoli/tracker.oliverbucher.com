@@ -9,6 +9,10 @@
 @use "fontawesome/solid.scss";
 @use "fontawesome/duotone.scss";
 
+@use "layout/WithSidebar";
+@use "layout/Cluster";
+@use "layout/Stack";
+
+@use "components/Footer";
 @use "components/Sidebar";
-@use "components/Cluster";
-@use "components/Stack";
+@use "components/TrackerFooter";

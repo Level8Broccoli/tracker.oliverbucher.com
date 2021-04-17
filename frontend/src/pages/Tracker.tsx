@@ -1,21 +1,19 @@
-import React, { FormEvent, useEffect, useState } from 'react';
-import PageNotFound from './PageNotFound';
+import { DateTime } from 'luxon';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { entryModel } from '../models/models';
+import { auth } from '../api/auth';
+import { entryCreate } from '../api/entryCreate';
+import { entryDelete } from '../api/entryDelete';
 import { entryReadAll } from '../api/entryReadAll';
 import { entryReadMore } from '../api/entryReadMore';
-import { entryCreate } from '../api/entryCreate';
-import { trackerDelete } from '../api/trackerDelete';
-import { entryDelete } from '../api/entryDelete';
-import WithSidebar from '../layout/WithSidebar';
 import LoggedIn from '../components/LoggedIn';
 import LoggedOut from '../components/LoggedOut';
-import { auth } from '../api/auth';
-import { SECRET_RULE } from '../config';
-import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
-import { useHistory } from 'react-router-dom';
-import { DateTime } from 'luxon';
 import Sidebar from '../components/Sidebar';
+import TrackerFooter from '../components/TrackerFooter';
+import WithSidebar from '../layout/WithSidebar';
+import { entryModel } from '../models/models';
+import { getSecret } from '../utils/storage';
+import PageNotFound from './PageNotFound';
 
 export default function Tracker(): JSX.Element {
     const { name } = useParams<{ name: string }>();
@@ -26,7 +24,6 @@ export default function Tracker(): JSX.Element {
     const [nextId, setNextId] = useState<number>();
     const [count, setCount] = useState(0);
     const [createdDate, setCreatedDate] = useState<DateTime>();
-    const history = useHistory();
 
     useEffect(() => {
         (async () => {
@@ -130,12 +127,18 @@ export default function Tracker(): JSX.Element {
                         {entries.map((entry, i) => (
                             <li key={entry.ref}>
                                 {entry.type} | {entry.timestamp.toLocaleString()}
-                                <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
+                                {loggedIn && (
+                                    <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
+                                )}
                             </li>
                         ))}
                     </ul>
                     {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
-                    {createdDate?.toLocaleString()} | {entries.length} / {count}
+                    <TrackerFooter
+                        createdDate={createdDate}
+                        countDisplay={entries.length}
+                        countTotal={count}
+                    />
                 </>
             }
         />
