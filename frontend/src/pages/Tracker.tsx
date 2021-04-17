@@ -29,6 +29,7 @@ export default function Tracker(): JSX.Element {
     useEffect(() => {
         (async () => {
             if (typeof name === 'string') {
+                document.title = `${name} | ${document.title}`;
                 const secret = getSecret(name);
                 if (typeof secret === 'string') {
                     const isAuthenticated = await auth(name, secret);
