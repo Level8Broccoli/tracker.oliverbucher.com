@@ -107,6 +107,7 @@ export default function Tracker(): JSX.Element {
                             <i className="fad fa-angle-double-right"></i>
                         </button>
                     )}
+                    <hr />
                     <TrackerFooter
                         name={name}
                         createdDate={createdDate}

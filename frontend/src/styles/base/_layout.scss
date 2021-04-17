@@ -1,4 +1,5 @@
 @use "../vars/spacing" as s;
+@use "../vars/colors" as clr;
 
 html,
 body {
@@ -25,4 +26,10 @@ header,
 main,
 footer {
     padding: s.$s-2 s.$s0;
+}
+
+hr {
+    margin: s.$s0;
+    border-top: 0.5px dashed clr.$dark-gray;
+    border-bottom: 0.5px dashed clr.$gray;
 }

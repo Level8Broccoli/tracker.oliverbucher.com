@@ -19,7 +19,9 @@ export default function Entry({
     if (entry.ref === CREATE_REF) {
         return (
             <li key={entry.ref}>
-                <button onClick={createEntry}>+</button>
+                <button onClick={createEntry}>
+                    <i className="fad fa-plus"></i>
+                </button>
             </li>
         );
     }
