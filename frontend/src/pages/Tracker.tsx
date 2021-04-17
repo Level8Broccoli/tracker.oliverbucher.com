@@ -18,6 +18,7 @@ export default function Tracker(): JSX.Element {
     const { name } = useParams<{ name: string }>();
     const [entries, setEntries] = useState<entryModel[]>([]);
     const [loading, setLoading] = useState(true);
+    const [doesNotExist, setDoesNotExist] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [secret, setSecret] = useState('');
     const [nextId, setNextId] = useState<number>();
@@ -39,6 +40,7 @@ export default function Tracker(): JSX.Element {
                 setLoading(false);
 
                 if (typeof res === 'undefined' || typeof res === 'string') {
+                    setDoesNotExist(true);
                     return;
                 }
                 const { data, count, next, created } = res;
@@ -64,6 +66,10 @@ export default function Tracker(): JSX.Element {
             setNextId(next);
         }
     };
+
+    if (!loading && doesNotExist) {
+        return <PageNotFound />;
+    }
 
     return (
         <WithSidebar
