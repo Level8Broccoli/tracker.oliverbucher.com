@@ -1,4 +1,5 @@
 @use "../vars/fonts" as f;
+@use "../vars/colors" as clr;
 
 :root {
     font-size: calc(1rem + 0.5vw);
@@ -24,4 +25,12 @@ footer {
 
 input {
     font-family: f.$family-mono;
+}
+
+.small-print {
+    font-size: f.$f-1;
+    color: clr.$light-gray;
+    font-family: f.$family-mono;
+    padding: 0;
+    list-style-position: inside;
 }

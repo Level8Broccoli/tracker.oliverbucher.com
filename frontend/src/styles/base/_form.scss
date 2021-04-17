@@ -58,4 +58,9 @@ input {
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
     }
+
+    .prefix {
+        padding: s.$s-3 s.$s-5 s.$s-3 0;
+        font-family: f.$family-mono;
+    }
 }
