@@ -1,6 +1,7 @@
 @use "../vars/spacing" as s;
 @use "../vars/colors" as c;
 @use "../vars/fonts" as f;
+@use '../mixins/various' as *;
 
 .EntryGroup {
     list-style-type: none;
@@ -13,12 +14,14 @@
     li > * {
         height: s.$s5;
         width: s.$s5;
-        background-color: c.$midnight;
-        border-radius: s.$s-4;
+
+        @include rounded-corners;
     }
 
     li > div {
         position: relative;
+
+        @include gradient-midnight;
 
         > p {
             font-size: f.$f-1;

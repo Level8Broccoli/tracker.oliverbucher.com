@@ -1,0 +1,36 @@
+@use '../vars/spacing' as s;
+
+@mixin rounded-corners {
+    border-radius: s.$s-4;
+}
+
+@mixin gradient-metro {
+    background: transparent linear-gradient(180deg, hsl(209, 100%, 50%) 0%, hsl(260, 98%, 64%) 100%)
+        0% 0% no-repeat padding-box;
+}
+
+@mixin gradient-sunset {
+    background: transparent linear-gradient(180deg, hsl(8, 93%, 65%) 0%, hsl(36, 100%, 50%) 100%) 0%
+        0% no-repeat padding-box;
+}
+
+@mixin gradient-grass {
+    background: transparent linear-gradient(180deg, hsl(165, 61%, 55%) 0%, hsl(88, 83%, 46%) 100%)
+        0% 0% no-repeat padding-box;
+}
+
+@mixin gradient-midnight {
+    background: transparent
+        linear-gradient(
+            180deg,
+            hsl(210, 97%, 15%) 0%,
+            hsl(210, 97%, 15%) 0%,
+            hsl(210, 97%, 25%) 100%
+        )
+        0% 0% no-repeat padding-box;
+}
+
+@mixin gradient-sky {
+    background: transparent linear-gradient(180deg, hsl(225, 20%, 96%) 0%, hsl(209, 97%, 85%) 100%)
+        0% 0% no-repeat padding-box;
+}

@@ -1,6 +1,7 @@
 @use '../vars/colors' as c;
 @use '../vars/spacing' as s;
 @use '../vars/fonts' as f;
+@use '../mixins/various' as *;
 
 .Toast {
     position: relative;
@@ -8,7 +9,8 @@
     color: c.$black;
     padding: s.$s-2 s.$s-1;
     font-size: f.$f-1;
-    border-radius: s.$s-4;
+
+    @include rounded-corners;
 
     p + p {
         margin-top: s.$s-2;

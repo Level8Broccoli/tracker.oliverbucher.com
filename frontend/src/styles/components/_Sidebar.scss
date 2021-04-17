@@ -1,8 +1,10 @@
 @use "../vars/colors" as c;
 @use "../vars/spacing" as s;
+@use '../mixins/various' as *;
 
 .Sidebar {
     background-color: c.$dark-gray;
-    border-radius: s.$s-4;
     padding: s.$s-3 s.$s0 s.$s0;
+
+    @include rounded-corners;
 }

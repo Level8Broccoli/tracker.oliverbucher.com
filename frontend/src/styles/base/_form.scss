@@ -2,14 +2,17 @@
 @use '../vars/spacing' as s;
 @use '../vars/fonts' as f;
 
+@use '../mixins/various' as *;
+
 button {
     background-color: c.$gray;
     border-color: transparent;
     color: c.$white;
-    border-radius: s.$s-4;
     padding: s.$s-4 s.$s-1;
     cursor: pointer;
     white-space: nowrap;
+
+    @include rounded-corners;
 
     &:hover {
         background-color: c.$primary;
@@ -38,9 +41,9 @@ label {
 }
 
 input {
-    border-radius: s.$s-4;
     border-color: transparent;
     padding: s.$s-4 s.$s-1;
+    @include rounded-corners;
 
     &.small {
         padding: s.$s-4 s.$s-2;
