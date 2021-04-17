@@ -1,12 +1,14 @@
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router';
 import { trackerCreate } from '../api/trackerCreate';
+import Toast from '../components/Toast';
 import { NAME_RULE } from '../config';
 import Stack from '../layout/Stack';
 import { saveSecret } from '../utils/storage';
 
 export default function Home(): JSX.Element {
     const [name, setName] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
     const history = useHistory();
 
     const submitNewTracker = async (e: FormEvent<HTMLFormElement>) => {
@@ -15,6 +17,7 @@ export default function Home(): JSX.Element {
         const { data, error } = await trackerCreate(name);
 
         if (error) {
+            setErrorMsg(data);
             console.error(data);
         } else {
             saveSecret(name, data, true);
@@ -44,6 +47,13 @@ export default function Home(): JSX.Element {
                         </button>
                     </div>
                 </form>
+                {errorMsg.length > 0 ? (
+                    <Toast closeToast={() => setErrorMsg('')} type={'warning'}>
+                        <p>{errorMsg}</p>
+                    </Toast>
+                ) : (
+                    <div></div>
+                )}
                 <div>
                     <p className="small-print">Dein Name darf</p>
                     <ul className="small-print">

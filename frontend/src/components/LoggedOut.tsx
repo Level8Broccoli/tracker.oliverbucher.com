@@ -1,8 +1,9 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import Stack from '../layout/Stack';
 import { saveSecret } from '../utils/storage';
+import Toast from './Toast';
 
 type Props = {
     name: string;
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export default function LoggedOut({ name, secret, setSecret, login }: Props): JSX.Element {
+    const [errorMsg, setErrorMsg] = useState('');
+
     const authenticate = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -19,6 +22,8 @@ export default function LoggedOut({ name, secret, setSecret, login }: Props): JS
         const isAuthenticated = await auth(name, secret);
         if (isAuthenticated) {
             login();
+        } else {
+            setErrorMsg('Anmeldung fehlgeschlagen. Bitte überprüfe deine Geheimwörter.');
         }
     };
 
@@ -41,6 +46,13 @@ export default function LoggedOut({ name, secret, setSecret, login }: Props): JS
                     </button>
                 </div>
             </form>
+            {errorMsg.length > 0 ? (
+                <Toast closeToast={() => setErrorMsg('')} type={'warning'}>
+                    <p>{errorMsg}</p>
+                </Toast>
+            ) : (
+                <div></div>
+            )}
         </Stack>
     );
 }
