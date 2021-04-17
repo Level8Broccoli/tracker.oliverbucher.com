@@ -24,7 +24,7 @@ export default function LoggedIn({
 
     useEffect(() => {
         setIsFirstTime(isFirst(name));
-        setShowSecret(true);
+        setShowSecret(isFirst(name));
     }, [secret]);
 
     const handleLogout = () => {
