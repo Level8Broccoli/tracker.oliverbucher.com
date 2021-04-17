@@ -1,25 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Kontakt | TRKR</title>
-    </head>
-    <body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"
+    />
+    <title>Kontakt | TRKR</title>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">TRKR.LVL8.IO</h1>
+        <h2 class="subtitle">Kontakt</h2>
+
         <form name="contact" netlify>
-            <p>
-                <label>Name <input type="text" name="name" /></label>
+
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder="Dein Name"
+                name="Name"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">E-Mail</label>
+            <div class="control">
+              <input
+                class="input"
+                type="email"
+                placeholder="Deine E-Mail"
+                name="E-Mail"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Nachricht</label>
+            <div class="control">
+              <textarea
+                class="textarea"
+                placeholder="Deien Nachricht"
+                name="Nachricht"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="field">
+            <p class="control">
+              <button class="button is-success" type="submit">Absenden</button>
             </p>
-            <p>
-                <label>E-Mail <input type="email" name="email" /></label>
-            </p>
-            <p>
-                <label>Nachricht <textarea name="message" ></textarea></label>
-            </p>
-            <p>
-                <button type="submit">Absenden</button>
-            </p>
+          </div>
+
         </form>
-    </body>
+      </div>
+    </section>
+  </body>
 </html>
