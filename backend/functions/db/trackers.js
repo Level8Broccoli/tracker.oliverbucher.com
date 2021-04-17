@@ -1,7 +1,7 @@
 import {
   Casefold,
   Collection,
-  Concat,
+
   Create,
   CreateCollection,
   CreateIndex,
@@ -9,18 +9,16 @@ import {
   Get,
   Index,
   Match,
-  Paginate,
+  Paginate
 } from "faunadb";
 import {
   ALL_TRACKERS_INDEX,
   ALL_TRACKER_NAMES_INDEX,
   CONFIGS_COLLECTION,
-  ENTRY_TYPE,
-  SORT_INDEX_SUFFIX,
+  SORT_INDEX_SUFFIX
 } from "../utils/config";
 import { getRandomSecret } from "../utils/secret";
 import { db } from "./db";
-import { addEntry } from "./entries";
 
 const createConfigEntry = async (name, timestamp) => {
   const secret = getRandomSecret();
@@ -65,7 +63,6 @@ export const createTracker = async (name, timestamp) => {
   const secret = await createConfigEntry(name, timestamp);
   await createCollection(name);
   await createSortingIndex(name);
-  await addEntry(name, timestamp, ENTRY_TYPE.CREATED);
 
   return secret;
 };

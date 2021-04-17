@@ -2,10 +2,9 @@ import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { auth } from '../api/auth';
-import { entryCreate } from '../api/entryCreate';
-import { entryDelete } from '../api/entryDelete';
 import { entryReadAll } from '../api/entryReadAll';
 import { entryReadMore } from '../api/entryReadMore';
+import EntriesDisplay from '../components/EntriesDisplay';
 import LoggedIn from '../components/LoggedIn';
 import LoggedOut from '../components/LoggedOut';
 import Sidebar from '../components/Sidebar';
@@ -51,35 +50,6 @@ export default function Tracker(): JSX.Element {
         })();
     }, [name]);
 
-    const createEntry = async () => {
-        const secret = getSecret(name);
-        if (typeof secret === 'string' && typeof name === 'string') {
-            const data = await entryCreate(name, secret);
-
-            if (typeof data !== 'string') {
-                setEntries((prev) => {
-                    return [data, ...prev];
-                });
-                setCount((prev) => prev + 1);
-            }
-        }
-    };
-
-    const deleteEntry = async (index: number, id: number) => {
-        const secret = getSecret(name);
-        if (typeof secret === 'string' && typeof name === 'string') {
-            const success = await entryDelete(name, secret, id);
-            if (success) {
-                setEntries((prevList) => {
-                    const newList = [...prevList];
-                    newList.splice(index, 1);
-                    return newList;
-                });
-                setCount((prev) => prev - 1);
-            }
-        }
-    };
-
     const loadMoreAfter = async () => {
         if (typeof nextId !== 'undefined') {
             const res = await entryReadMore(name, nextId);
@@ -122,18 +92,19 @@ export default function Tracker(): JSX.Element {
             }
             main={
                 <>
-                    {loggedIn && <button onClick={createEntry}>+</button>}
-                    <ul>
-                        {entries.map((entry, i) => (
-                            <li key={entry.ref}>
-                                {entry.type} | {entry.timestamp.toLocaleString()}
-                                {loggedIn && (
-                                    <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                    {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
+                    <EntriesDisplay
+                        name={name}
+                        setEntries={setEntries}
+                        setCount={setCount}
+                        entries={entries}
+                        loggedIn={loggedIn}
+                    />
+                    {nextId && (
+                        <button className="small" onClick={loadMoreAfter}>
+                            lade ältere Einträge
+                            <i className="fad fa-angle-double-right"></i>
+                        </button>
+                    )}
                     <TrackerFooter
                         name={name}
                         createdDate={createdDate}

@@ -21,10 +21,10 @@ import {
 } from "../utils/config";
 import { db } from "./db";
 
-export const addEntry = async (name, timestamp, type) => {
+export const addEntry = async (name, timestamp) => {
   const { data, ref } = await db.query(
     Create(Collection(Casefold(name)), {
-      data: { timestamp, type: Casefold(type) },
+      data: { timestamp },
     })
   );
   return { ...data, ref: ref.id };

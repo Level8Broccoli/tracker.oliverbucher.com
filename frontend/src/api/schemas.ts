@@ -1,8 +1,5 @@
-import { entryType } from '../models/models';
-
 export interface entryAPI {
     timestamp: string;
-    type: entryType;
     ref: number;
 }
 
