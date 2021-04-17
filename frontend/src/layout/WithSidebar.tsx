@@ -8,7 +8,7 @@ type Props = {
 export default function WithSidebar({ main, sidebar }: Props): JSX.Element {
     return (
         <div className="with-sidebar">
-            <div className="sidebar">{sidebar}</div>
+            <div className="is-sidebar">{sidebar}</div>
             <div className="not-sidebar">{main}</div>
         </div>
     );

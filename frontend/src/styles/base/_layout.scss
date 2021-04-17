@@ -29,6 +29,7 @@ footer {
 }
 
 hr {
-    border-top: 0.5px dashed clr.$dark-gray;
-    border-bottom: 0.5px dashed clr.$gray;
+    border: none;
+    height: s.$s-5;
+    background: radial-gradient(ellipse at left, clr.$gr-midnight-start, clr.$gr-midnight-end 75%);
 }
