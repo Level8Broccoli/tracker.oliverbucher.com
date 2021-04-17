@@ -32,38 +32,36 @@ export default function LoggedIn({ name, secret, setSecret, logout }: Props): JS
     };
 
     return (
-        <div className="LoggedIn">
-            <Stack>
-                <h2>{name}</h2>
-                <Cluster>
-                    <div>
-                        <button onClick={handleLogout} className="small">
-                            <i className="fad fa-sign-out-alt"></i> Abmelden
+        <Stack>
+            <h2>{name}</h2>
+            <Cluster>
+                <div>
+                    <button onClick={handleLogout} className="small">
+                        <i className="fad fa-sign-out-alt"></i> Abmelden
+                    </button>
+                </div>
+                <div>
+                    <button onClick={deleteTracker} className="small">
+                        <i className="fad fa-trash-alt"></i> Tracker Löschen
+                    </button>
+                </div>
+            </Cluster>
+            {showSecret ? (
+                <div>
+                    <Stack>
+                        <button onClick={() => setShowSecret(false)} className="small">
+                            <i className="fad fa-key"></i> Geheimwörter ausblenden
                         </button>
-                    </div>
-                    <div>
-                        <button onClick={deleteTracker} className="small">
-                            <i className="fad fa-trash-alt"></i> Tracker Löschen
-                        </button>
-                    </div>
-                </Cluster>
-                {showSecret ? (
-                    <div>
-                        <Stack>
-                            <button onClick={() => setShowSecret(false)} className="small">
-                                <i className="fad fa-key"></i> Geheimwörter ausblenden
-                            </button>
-                            <input type="text" value={secret} className="small" disabled />
-                        </Stack>
-                    </div>
-                ) : (
-                    <div>
-                        <button onClick={() => setShowSecret(true)} className="small">
-                            <i className="fad fa-key"></i> Geheimwörter anzeigen
-                        </button>
-                    </div>
-                )}
-            </Stack>
-        </div>
+                        <input type="text" value={secret} className="small" disabled />
+                    </Stack>
+                </div>
+            ) : (
+                <div>
+                    <button onClick={() => setShowSecret(true)} className="small">
+                        <i className="fad fa-key"></i> Geheimwörter anzeigen
+                    </button>
+                </div>
+            )}
+        </Stack>
     );
 }

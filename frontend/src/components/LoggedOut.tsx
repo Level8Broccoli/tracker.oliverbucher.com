@@ -1,6 +1,7 @@
 import React, { FormEvent } from 'react';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
+import Stack from '../layout/Stack';
 import { saveSecret } from '../utils/storage';
 
 type Props = {
@@ -22,17 +23,24 @@ export default function LoggedOut({ name, secret, setSecret, login }: Props): JS
     };
 
     return (
-        <form onSubmit={authenticate}>
-            <label htmlFor="secret">Geheimwörter</label>
-            <input
-                id="secret"
-                type="text"
-                placeholder="deine Geheimwörter"
-                pattern={SECRET_RULE.toString().slice(1, -1)}
-                value={secret}
-                onChange={(e) => setSecret(e.target.value)}
-            />
-            <button type="submit">Anmelden</button>
-        </form>
+        <Stack>
+            <h2>{name}</h2>
+            <form onSubmit={authenticate}>
+                <label htmlFor="secret">Anmelden</label>
+                <div className="addon">
+                    <input
+                        id="secret"
+                        type="text"
+                        placeholder="deine Geheimwörter"
+                        pattern={SECRET_RULE.toString().slice(1, -1)}
+                        value={secret}
+                        onChange={(e) => setSecret(e.target.value)}
+                    />
+                    <button type="submit">
+                        <i className="fad fa-key"></i>
+                    </button>
+                </div>
+            </form>
+        </Stack>
     );
 }

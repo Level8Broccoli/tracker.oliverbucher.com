@@ -25,12 +25,36 @@ button {
     }
 }
 
+label {
+    display: block;
+}
+
 input {
+    border-radius: s.$s-4;
+    border-color: transparent;
+    padding: s.$s-4 s.$s-1;
+
     &.small {
+        padding: s.$s-4 s.$s-2;
         font-size: f.$f-1;
     }
 
     &:disabled {
         color: clr.$gray;
+    }
+}
+
+.addon {
+    display: flex;
+    justify-content: flex-start;
+
+    input {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    button {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
     }
 }

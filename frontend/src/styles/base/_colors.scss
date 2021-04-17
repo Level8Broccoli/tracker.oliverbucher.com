@@ -7,4 +7,9 @@ body {
 
 a {
     color: clr.$secondary;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
