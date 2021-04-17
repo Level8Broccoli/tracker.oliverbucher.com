@@ -65,10 +65,6 @@ export default function Tracker(): JSX.Element {
         }
     };
 
-    if (!loading && entries.length === 0) {
-        return <PageNotFound />;
-    }
-
     return (
         <WithSidebar
             sidebar={
