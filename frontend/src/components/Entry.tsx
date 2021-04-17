@@ -29,10 +29,12 @@ export default function Entry({
     return (
         <li key={entry.ref}>
             <div>
-                <p>
-                    {entry.timestamp.setLocale('de').toFormat('ccc, d.L.yy, H.mm')}&nbsp;Uhr{' '}
-                    {loggedIn && <button onClick={() => deleteEntry(entry.ref)}>x</button>}
-                </p>
+                <p>{entry.timestamp.setLocale('de').toFormat('ccc, d.L.yy, H.mm')}&nbsp;Uhr </p>
+                {loggedIn && (
+                    <button className="delete-entry" onClick={() => deleteEntry(entry.ref)}>
+                        <i className="fad fa-trash-alt"></i>
+                    </button>
+                )}
             </div>
         </li>
     );

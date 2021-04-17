@@ -5,6 +5,7 @@
 .EntryGroup {
     list-style-type: none;
     padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     gap: s.$s0;
@@ -17,6 +18,8 @@
     }
 
     li > div {
+        position: relative;
+
         > p {
             font-size: f.$f-1;
             padding: s.$s-1;
@@ -25,7 +28,7 @@
             transition: opacity 50ms ease-in-out;
         }
 
-        &:hover > p {
+        &:hover > * {
             opacity: 1;
         }
     }
@@ -37,6 +40,25 @@
         &:hover {
             color: c.$primary;
             border-color: c.$primary;
+        }
+    }
+
+    .delete-entry {
+        position: absolute;
+        height: s.$s2;
+        width: 100%;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        opacity: 0.5;
+
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+
+        &:hover {
+            color: c.$white;
+            background-color: c.$error;
         }
     }
 }

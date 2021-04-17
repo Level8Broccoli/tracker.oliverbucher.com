@@ -75,7 +75,7 @@ export default function LoggedIn({ name, secret, setSecret, logout }: Props): JS
                     </button>
                 </div>
                 <div>
-                    <button onClick={deleteTracker} className="small">
+                    <button onClick={deleteTracker} className="small warning">
                         <i className="fad fa-trash-alt"></i> deinen TRKR löschen
                     </button>
                 </div>

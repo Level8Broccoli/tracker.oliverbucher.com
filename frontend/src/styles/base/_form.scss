@@ -24,6 +24,13 @@ button {
         padding: s.$s-4 s.$s-2;
         font-size: f.$f-1;
     }
+
+    &.warning {
+        &:hover {
+            background-color: c.$error;
+            color: c.$white;
+        }
+    }
 }
 
 label {
