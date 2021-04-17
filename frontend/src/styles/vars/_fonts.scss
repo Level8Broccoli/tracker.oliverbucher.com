@@ -1,5 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Rubik:wght@400;500&display=swap');
 
-$family: 'Rubik', sans-serif;
+$family-sans: 'Rubik', sans-serif;
 $weight-normal: 400;
 $weight-bold: 500;
+
+$family-mono: 'JetBrains Mono', monospace;
+
+$ratio: 1.5;
+$f0: 1rem;
+
+$f-1: $f0 / $ratio;
+$f-2: $f-1 / $ratio;
+$f-3: $f-2 / $ratio;
+$f-4: $f-3 / $ratio;
+$f-5: $f-4 / $ratio;
+
+$f1: $f0 * $ratio;
+$f2: $f1 * $ratio;
+$f3: $f2 * $ratio;
+$f4: $f3 * $ratio;
+$f5: $f4 * $ratio;

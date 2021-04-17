@@ -1,0 +1,7 @@
+@use '../vars/spacing' as s;
+
+.Cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: s.$s-2 s.$s-1;
+}

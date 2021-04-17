@@ -1,11 +1,11 @@
-@use "../vars/fonts" as fonts;
+@use "../vars/fonts" as f;
 
 :root {
     font-size: calc(1rem + 0.5vw);
 }
 
 body {
-    font-family: fonts.$family;
+    font-family: f.$family-sans;
 }
 
 * {
@@ -20,4 +20,8 @@ nav,
 main,
 footer {
     max-width: none;
+}
+
+input {
+    font-family: f.$family-mono;
 }

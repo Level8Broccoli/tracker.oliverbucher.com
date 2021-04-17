@@ -1,0 +1,7 @@
+@use '../vars/spacing' as s;
+
+.Stack {
+    > * + * {
+        margin-top: s.$s-1;
+    }
+}

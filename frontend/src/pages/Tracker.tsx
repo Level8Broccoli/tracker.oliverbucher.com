@@ -8,6 +8,8 @@ import { entryCreate } from '../api/entryCreate';
 import { trackerDelete } from '../api/trackerDelete';
 import { entryDelete } from '../api/entryDelete';
 import WithSidebar from '../layout/WithSidebar';
+import LoggedIn from '../components/LoggedIn';
+import LoggedOut from '../components/LoggedOut';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
@@ -19,7 +21,7 @@ export default function Tracker(): JSX.Element {
     const { name } = useParams<{ name: string }>();
     const [entries, setEntries] = useState<entryModel[]>([]);
     const [loading, setLoading] = useState(true);
-    const [authenticated, setAuthenticated] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
     const [secret, setSecret] = useState('');
     const [nextId, setNextId] = useState<number>();
     const [count, setCount] = useState(0);
@@ -33,7 +35,8 @@ export default function Tracker(): JSX.Element {
                 const secret = getSecret(name);
                 if (typeof secret === 'string') {
                     const isAuthenticated = await auth(name, secret);
-                    setAuthenticated(isAuthenticated);
+                    setLoggedIn(isAuthenticated);
+                    setSecret(secret);
                 }
 
                 const res = await entryReadAll(name);
@@ -65,15 +68,6 @@ export default function Tracker(): JSX.Element {
         }
     };
 
-    const deleteTracker = async () => {
-        const secret = getSecret(name);
-        if (typeof secret === 'string' && typeof name === 'string') {
-            await trackerDelete(name, secret);
-            deleteSecret(name);
-            history.push('/');
-        }
-    };
-
     const deleteEntry = async (index: number, id: number) => {
         const secret = getSecret(name);
         if (typeof secret === 'string' && typeof name === 'string') {
@@ -87,19 +81,6 @@ export default function Tracker(): JSX.Element {
                 setCount((prev) => prev - 1);
             }
         }
-    };
-
-    const authenticate = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        saveSecret(name, secret);
-        const isAuthenticated = await auth(name, secret);
-        setAuthenticated(isAuthenticated);
-    };
-
-    const logout = () => {
-        deleteSecret(name);
-        setAuthenticated(false);
     };
 
     const loadMoreAfter = async () => {
@@ -125,38 +106,26 @@ export default function Tracker(): JSX.Element {
         <WithSidebar
             sidebar={
                 <Sidebar>
-                    <>
-                        <p>
-                            Name: {name} (Anzahl Einträge: {count})
-                        </p>
-                        {authenticated && <button onClick={deleteTracker}>Löschen</button>}
-                        {authenticated ? (
-                            <div>
-                                <h2>Online</h2>
-                                <form onSubmit={logout}>
-                                    <button type="submit">Abmelden</button>
-                                </form>
-                            </div>
-                        ) : (
-                            <form onSubmit={authenticate}>
-                                <label htmlFor="secret">Geheimwörter</label>
-                                <input
-                                    id="secret"
-                                    type="text"
-                                    placeholder="deine Geheimwörter"
-                                    pattern={SECRET_RULE.toString().slice(1, -1)}
-                                    value={secret}
-                                    onChange={(e) => setSecret(e.target.value)}
-                                />
-                                <button type="submit">Anmelden</button>
-                            </form>
-                        )}
-                    </>
+                    {loggedIn ? (
+                        <LoggedIn
+                            name={name}
+                            secret={secret}
+                            setSecret={setSecret}
+                            logout={() => setLoggedIn(false)}
+                        />
+                    ) : (
+                        <LoggedOut
+                            name={name}
+                            secret={secret}
+                            setSecret={setSecret}
+                            login={() => setLoggedIn(true)}
+                        />
+                    )}
                 </Sidebar>
             }
             main={
                 <>
-                    {authenticated && <button onClick={createEntry}>+</button>}
+                    {loggedIn && <button onClick={createEntry}>+</button>}
                     <ul>
                         {entries.map((entry, i) => (
                             <li key={entry.ref}>
@@ -166,7 +135,7 @@ export default function Tracker(): JSX.Element {
                         ))}
                     </ul>
                     {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
-                    {createdDate?.toLocaleString()}
+                    {createdDate?.toLocaleString()} | {entries.length} / {count}
                 </>
             }
         />

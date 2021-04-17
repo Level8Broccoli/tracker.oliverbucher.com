@@ -1,0 +1,36 @@
+@use '../vars/colors' as clr;
+@use '../vars/spacing' as s;
+@use '../vars/fonts' as f;
+
+button {
+    background-color: clr.$gray;
+    border-color: transparent;
+    color: clr.$white;
+    border-radius: s.$s-4;
+    padding: s.$s-4 s.$s-1;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: clr.$primary;
+    }
+
+    > i {
+        margin-right: s.$s-4;
+    }
+
+    &.small {
+        padding: s.$s-4 s.$s-2;
+        font-size: f.$f-1;
+    }
+}
+
+input {
+    &.small {
+        font-size: f.$f-1;
+    }
+
+    &:disabled {
+        color: clr.$gray;
+    }
+}
