@@ -7,7 +7,7 @@ import { entryReadMore } from '../api/entryReadMore';
 import { entryCreate } from '../api/entryCreate';
 import { trackerDelete } from '../api/trackerDelete';
 import { entryDelete } from '../api/entryDelete';
-import Sidebar from '../components/Sidebar';
+import WithSidebar from '../layout/WithSidebar';
 import { auth } from '../api/auth';
 import { SECRET_RULE } from '../config';
 import { deleteSecret, getSecret, saveSecret } from '../utils/storage';
@@ -120,47 +120,51 @@ export default function Tracker(): JSX.Element {
     }
 
     return (
-        <section>
-            <Sidebar />
-            <h1>
-                <a href="/">TRKR</a>
-            </h1>
-            <p>
-                Name: {name} (Anzahl Einträge: {count})
-            </p>
-            <button onClick={createEntry}>+</button>
-            {authenticated && <button onClick={deleteTracker}>Löschen</button>}
-            {authenticated ? (
-                <div>
-                    <h2>Online</h2>
-                    <form onSubmit={logout}>
-                        <button type="submit">Abmelden</button>
-                    </form>
-                </div>
-            ) : (
-                <form onSubmit={authenticate}>
-                    <label htmlFor="secret">Geheimwörter</label>
-                    <input
-                        id="secret"
-                        type="text"
-                        placeholder="deine Geheimwörter"
-                        pattern={SECRET_RULE.toString().slice(1, -1)}
-                        value={secret}
-                        onChange={(e) => setSecret(e.target.value)}
-                    />
-                    <button type="submit">Anmelden</button>
-                </form>
-            )}
-            <ul>
-                {entries.map((entry, i) => (
-                    <li key={entry.ref}>
-                        {entry.type} | {entry.timestamp.toISO()} | {entry.ref}
-                        <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
-                    </li>
-                ))}
-            </ul>
-            {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
-            {createdDate?.toISO() || ' notSet'}
-        </section>
+        <WithSidebar
+            sidebar={
+                <>
+                    <p>
+                        Name: {name} (Anzahl Einträge: {count})
+                    </p>
+                    <button onClick={createEntry}>+</button>
+                    {authenticated && <button onClick={deleteTracker}>Löschen</button>}
+                    {authenticated ? (
+                        <div>
+                            <h2>Online</h2>
+                            <form onSubmit={logout}>
+                                <button type="submit">Abmelden</button>
+                            </form>
+                        </div>
+                    ) : (
+                        <form onSubmit={authenticate}>
+                            <label htmlFor="secret">Geheimwörter</label>
+                            <input
+                                id="secret"
+                                type="text"
+                                placeholder="deine Geheimwörter"
+                                pattern={SECRET_RULE.toString().slice(1, -1)}
+                                value={secret}
+                                onChange={(e) => setSecret(e.target.value)}
+                            />
+                            <button type="submit">Anmelden</button>
+                        </form>
+                    )}
+                </>
+            }
+            main={
+                <>
+                    <ul>
+                        {entries.map((entry, i) => (
+                            <li key={entry.ref}>
+                                {entry.type} | {entry.timestamp.toLocaleString()}
+                                <button onClick={() => deleteEntry(i, entry.ref)}>x</button>
+                            </li>
+                        ))}
+                    </ul>
+                    {nextId && <button onClick={loadMoreAfter}>Lade mehr Einträge</button>}
+                    {createdDate?.toLocaleString()}
+                </>
+            }
+        />
     );
 }
