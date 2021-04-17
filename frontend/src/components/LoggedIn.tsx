@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { trackerDelete } from '../api/trackerDelete';
-import { deleteSecret, getSecret, isFirst, setIsFirst } from '../utils/storage';
+import Toast from '../components/Toast';
 import Cluster from '../layout/Cluster';
 import Stack from '../layout/Stack';
-import Toast from '../components/Toast';
+import { deleteSecret, isFirst, setIsFirst } from '../utils/storage';
 
 type Props = {
     name: string;
     secret: string;
     setSecret: (s: string) => void;
     logout: () => void;
+    setWantsToDeleteTracker: (b: boolean) => void;
 };
 
-export default function LoggedIn({ name, secret, setSecret, logout }: Props): JSX.Element {
-    const history = useHistory();
+export default function LoggedIn({
+    name,
+    secret,
+    setSecret,
+    logout,
+    setWantsToDeleteTracker
+}: Props): JSX.Element {
     const [showSecret, setShowSecret] = useState(false);
     const [isFirstTime, setIsFirstTime] = useState(false);
 
     useEffect(() => {
         setIsFirstTime(isFirst(name));
+        setShowSecret(true);
     }, [secret]);
-
-    const deleteTracker = async () => {
-        const secret = getSecret(name);
-        if (typeof secret === 'string') {
-            await trackerDelete(name, secret);
-            deleteSecret(name);
-            history.push('/');
-        }
-    };
 
     const handleLogout = () => {
         deleteSecret(name);
@@ -41,6 +37,9 @@ export default function LoggedIn({ name, secret, setSecret, logout }: Props): JS
         setIsFirst(name, false);
         setIsFirstTime(false);
     };
+    const initiateDeleteTracker = () => {
+        setWantsToDeleteTracker(true);
+    };
 
     return (
         <Stack>
@@ -48,23 +47,24 @@ export default function LoggedIn({ name, secret, setSecret, logout }: Props): JS
                 <h2>{name}</h2>
                 {isFirstTime && (
                     <Toast closeToast={closeToast}>
-                        <p>Lesen dürfen alle deinen TRKR!</p>
-                        <p>
-                            Um neue Einträge hinzuzufügen, zu entfernen oder den gesamten TRKR
-                            unwiederruflich zu löschen, dazu benötigt man die passenden
-                            Geheimwörter.
-                        </p>
-                        <p>Die Geheimwörter werden in deinem Browser gespeichert.</p>
-                        <p>
-                            Willst du aber deinen TRKR auf einem anderen Gerät verwenden, meldest du
-                            dich ab oder hast du deinen Browser so eingestellt, dass regelmässig der
-                            Cache geleert wird, dann merke dir deine Geheimwörter, damit du auch
-                            später noch deinen TRKR benutzen kannst.
-                        </p>
-                        <p>
-                            Mit einem Klick auf «Geheimwörter anzeigen» unten, kannst du dir deine
-                            Geheimwörter anzeigen lassen.
-                        </p>
+                        <>
+                            <p>
+                                Um neue Einträge hinzuzufügen, zu entfernen oder den gesamten TRKR
+                                unwiederruflich zu löschen, benötigst du die passenden Geheimwörter.
+                                (Die Geheimwörter wurden in deinem Browser gespeichert.)
+                            </p>
+                            <p>
+                                Willst du aber deinen TRKR auf einem <strong>anderen Gerät</strong>{' '}
+                                verwenden, <strong>meldest du dich ab</strong> oder{' '}
+                                <strong>löscht dein Browser automatisch deinen Cache,</strong> dann
+                                merke dir deine Geheimwörter, damit du auch später noch deinen TRKR
+                                benutzen kannst.
+                            </p>
+                            <p>
+                                Mit einem Klick auf «Geheimwörter anzeigen» unten, kannst du dir
+                                deine Geheimwörter anzeigen lassen.
+                            </p>
+                        </>
                     </Toast>
                 )}
             </div>
@@ -75,7 +75,7 @@ export default function LoggedIn({ name, secret, setSecret, logout }: Props): JS
                     </button>
                 </div>
                 <div>
-                    <button onClick={deleteTracker} className="small warning">
+                    <button onClick={initiateDeleteTracker} className="small warning">
                         <i className="fad fa-trash-alt"></i> deinen TRKR löschen
                     </button>
                 </div>

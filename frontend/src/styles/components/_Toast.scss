@@ -12,6 +12,15 @@
 
     @include rounded-corners;
 
+    &.warning {
+        background-color: c.$error;
+        color: c.$white;
+
+        .delete {
+            color: c.$white;
+        }
+    }
+
     p + p {
         margin-top: s.$s-2;
     }

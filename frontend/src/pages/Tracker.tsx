@@ -1,18 +1,21 @@
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { auth } from '../api/auth';
 import { entryReadAll } from '../api/entryReadAll';
 import { entryReadMore } from '../api/entryReadMore';
+import { trackerDelete } from '../api/trackerDelete';
 import EntriesDisplay from '../components/EntriesDisplay';
 import LoggedIn from '../components/LoggedIn';
 import LoggedOut from '../components/LoggedOut';
 import Sidebar from '../components/Sidebar';
+import Toast from '../components/Toast';
 import TrackerFooter from '../components/TrackerFooter';
 import Stack from '../layout/Stack';
 import WithSidebar from '../layout/WithSidebar';
 import { entryModel } from '../models/models';
-import { getSecret } from '../utils/storage';
+import { deleteSecret, getSecret } from '../utils/storage';
 import PageNotFound from './PageNotFound';
 
 export default function Tracker(): JSX.Element {
@@ -21,9 +24,11 @@ export default function Tracker(): JSX.Element {
     const [loading, setLoading] = useState(true);
     const [doesNotExist, setDoesNotExist] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [wantsToDeleteTracker, setWantsToDeleteTracker] = useState(false);
     const [secret, setSecret] = useState('');
     const [nextId, setNextId] = useState<number>();
     const [count, setCount] = useState(0);
+    const history = useHistory();
     const [createdDate, setCreatedDate] = useState<DateTime>();
 
     useEffect(() => {
@@ -68,6 +73,15 @@ export default function Tracker(): JSX.Element {
         }
     };
 
+    const deleteTracker = async () => {
+        const secret = getSecret(name);
+        if (typeof secret === 'string') {
+            await trackerDelete(name, secret);
+            deleteSecret(name);
+            history.push('/');
+        }
+    };
+
     if (!loading && doesNotExist) {
         return <PageNotFound />;
     }
@@ -75,23 +89,46 @@ export default function Tracker(): JSX.Element {
     return (
         <WithSidebar
             sidebar={
-                <Sidebar>
-                    {loggedIn ? (
-                        <LoggedIn
-                            name={name}
-                            secret={secret}
-                            setSecret={setSecret}
-                            logout={() => setLoggedIn(false)}
-                        />
+                <Stack>
+                    <Sidebar>
+                        {loggedIn ? (
+                            <LoggedIn
+                                name={name}
+                                secret={secret}
+                                setSecret={setSecret}
+                                logout={() => setLoggedIn(false)}
+                                setWantsToDeleteTracker={setWantsToDeleteTracker}
+                            />
+                        ) : (
+                            <LoggedOut
+                                name={name}
+                                secret={secret}
+                                setSecret={setSecret}
+                                login={() => setLoggedIn(true)}
+                            />
+                        )}
+                    </Sidebar>
+                    {wantsToDeleteTracker ? (
+                        <Toast closeToast={() => setWantsToDeleteTracker(false)} type={'warning'}>
+                            <>
+                                <p>Möchtest du deinen TRKR wirklich löschen?</p>
+                                <p>
+                                    <strong>
+                                        Diese Aktion kann nicht rückgängig gemacht werden!
+                                    </strong>
+                                </p>
+                                <p>
+                                    <button onClick={deleteTracker} className="small">
+                                        <i className="fad fa-shredder"></i>
+                                        Ja, bitte alle Daten dieses TRKR löschen.
+                                    </button>
+                                </p>
+                            </>
+                        </Toast>
                     ) : (
-                        <LoggedOut
-                            name={name}
-                            secret={secret}
-                            setSecret={setSecret}
-                            login={() => setLoggedIn(true)}
-                        />
+                        <div></div>
                     )}
-                </Sidebar>
+                </Stack>
             }
             main={
                 <Stack>
