@@ -29,6 +29,7 @@ footer {
 }
 
 hr {
+    margin: s.$s0 0;
     border: none;
     height: s.$s-5;
     background: radial-gradient(ellipse at left, c.$gr-midnight-start, c.$gr-midnight-end 75%);
