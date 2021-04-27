@@ -76,7 +76,7 @@ export default function LoggedIn({
                 </div>
                 <div>
                     <button onClick={initiateDeleteTracker} className="small warning">
-                        <i className="fad fa-trash-alt"></i> deinen TRKR löschen
+                        <i className="fad fa-trash-alt"></i> TRKR löschen
                     </button>
                 </div>
             </Cluster>
