@@ -34,17 +34,19 @@ export default function Home(): JSX.Element {
                         <label htmlFor="name" className="prefix">
                             trkr.lvl8.io/
                         </label>
-                        <input
-                            id="name"
-                            type="text"
-                            placeholder="name-deines-TRKRs"
-                            pattern={NAME_RULE.toString().slice(1, -1)}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                        <button type="submit">
-                            <i className="fad fa-file-plus"></i>
-                        </button>
+                        <div className="addon">
+                            <input
+                                id="name"
+                                type="text"
+                                placeholder="name-deines-TRKRs"
+                                pattern={NAME_RULE.toString().slice(1, -1)}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                            <button type="submit">
+                                <i className="fad fa-file-plus"></i>
+                            </button>
+                        </div>
                     </div>
                 </form>
                 {errorMsg.length > 0 ? (
