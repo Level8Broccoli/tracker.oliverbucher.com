@@ -58,6 +58,7 @@ input {
 .addon {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
 
     input {
         border-bottom-right-radius: 0;
