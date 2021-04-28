@@ -37,7 +37,7 @@ export default function Home(): JSX.Element {
                         <input
                             id="name"
                             type="text"
-                            placeholder="dein-name"
+                            placeholder="name-deines-TRKRs"
                             pattern={NAME_RULE.toString().slice(1, -1)}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -55,7 +55,7 @@ export default function Home(): JSX.Element {
                     <div></div>
                 )}
                 <div>
-                    <p className="small-print">Dein Name darf</p>
+                    <p className="small-print">Der Name darf</p>
                     <ul className="small-print">
                         <li>(A-Z): Grossbuchstaben,</li>
                         <li>(a-z): Kleinbuchstaben,</li>
